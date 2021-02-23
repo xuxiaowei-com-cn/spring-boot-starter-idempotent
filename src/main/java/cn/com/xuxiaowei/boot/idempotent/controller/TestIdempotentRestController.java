@@ -29,7 +29,7 @@ public class TestIdempotentRestController {
      * @param response 响应
      * @return 返回 UUID
      */
-    @Idempotent(key = "key1", header = "h1")
+    @Idempotent(key = "key1", expireTime = 10, header = "h1")
     @RequestMapping("/uuid")
     public Map<String, Object> uuid(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>(8);

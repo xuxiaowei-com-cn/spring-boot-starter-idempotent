@@ -135,8 +135,8 @@ public class IdempotentAspect {
 
             // 执行方法
             Object proceed = joinPoint.proceed();
-            // 将结果放入 Redis 中
-            stringRedisTemplate.opsForValue().set(key, JSON.toJSONString(proceed));
+            // 将结果放入 Redis 中，添加过期时间
+            stringRedisTemplate.opsForValue().set(key, JSON.toJSONString(proceed), idempotent.expireTime(), idempotent.timeUnit());
             // 返回执行结果
             return proceed;
         } else {
