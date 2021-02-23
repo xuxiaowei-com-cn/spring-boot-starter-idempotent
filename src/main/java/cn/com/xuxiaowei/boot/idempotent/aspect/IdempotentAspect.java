@@ -92,10 +92,10 @@ public class IdempotentAspect {
                 if (StringUtils.hasText(headerValue)) {
                     // 存在请求头中的TokenValue
                     // 根据请求头中的TokenValue获取Redis中缓存的结果
-                    return getProceed(joinPoint, headerValue);
+                    return getProceed(idempotent, joinPoint, headerValue);
                 } else if (StringUtils.hasText(paramValue)) {
                     // 根据参数中的TokenValue获取Redis中缓存的结果
-                    return getProceed(joinPoint, paramValue);
+                    return getProceed(idempotent, joinPoint, paramValue);
                 } else {
                     log.error("幂等从请求中未获取到Token，幂等失效");
 
@@ -118,21 +118,25 @@ public class IdempotentAspect {
     /**
      * 获取 Redis 中的缓存结果
      *
+     * @param idempotent 幂等
      * @param joinPoint  切面方法信息
      * @param tokenValue TokenValue
      * @return 返回 Redis 中的缓存结果
      * @throws Throwable 执行异常
      */
-    private Object getProceed(ProceedingJoinPoint joinPoint, String tokenValue) throws Throwable {
+    private Object getProceed(Idempotent idempotent, ProceedingJoinPoint joinPoint, String tokenValue) throws Throwable {
+
+        String key = idempotent.key() + ":" + tokenValue;
+
         // 获取 Redis 中缓存的值
-        String redisValue = stringRedisTemplate.opsForValue().get(tokenValue);
+        String redisValue = stringRedisTemplate.opsForValue().get(key);
         if (redisValue == null) {
             // Redis 中无值
 
             // 执行方法
             Object proceed = joinPoint.proceed();
             // 将结果放入 Redis 中
-            stringRedisTemplate.opsForValue().set(tokenValue, JSON.toJSONString(proceed));
+            stringRedisTemplate.opsForValue().set(key, JSON.toJSONString(proceed));
             // 返回执行结果
             return proceed;
         } else {
