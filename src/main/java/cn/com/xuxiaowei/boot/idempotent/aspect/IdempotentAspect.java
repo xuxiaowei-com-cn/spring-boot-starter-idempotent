@@ -47,7 +47,7 @@ public class IdempotentAspect {
     }
 
     /**
-     * 前置通知
+     * 环绕通知
      *
      * @param joinPoint 切面方法信息
      */
