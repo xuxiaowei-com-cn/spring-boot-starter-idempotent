@@ -40,11 +40,13 @@ public @interface Idempotent {
     String key();
 
     /**
-     * 有效期
+     * 有效期时间
      * <p>
      * 默认：1
+     * <p>
+     * 单位：{@link #timeUnit()}
      *
-     * @return 有效期
+     * @return 有效期时间
      */
     int expireTime() default 1;
 
