@@ -1,4 +1,11 @@
 #
+# Redis 配置
+spring:
+  redis:
+    host: 127.0.0.1
+    database: 6
+    password:
+#
 # 日志配置
 logging:
   level:
