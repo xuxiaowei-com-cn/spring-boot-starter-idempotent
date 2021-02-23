@@ -1,0 +1,5 @@
+#
+# 日志配置
+logging:
+  level:
+    cn.com.xuxiaowei.boot.idempotent: debug
