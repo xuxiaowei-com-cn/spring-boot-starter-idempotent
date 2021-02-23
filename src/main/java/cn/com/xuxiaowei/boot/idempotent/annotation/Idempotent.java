@@ -34,10 +34,8 @@ public @interface Idempotent {
 
     /**
      * 幂等放入Redis中的键值
-     * <p>
-     * 支持 Spring-EL 表达式
      *
-     * @return 幂等键值
+     * @return 幂等放入Redis中的键值
      */
     String key();
 
