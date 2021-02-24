@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 测试幂等
@@ -29,7 +30,7 @@ public class TestIdempotentRestController {
      * @param response 响应
      * @return 返回 UUID
      */
-    @Idempotent(key = "key1", expireTime = 10, header = "h1")
+    @Idempotent(key = "key1", expireTime = 10, timeUnit = TimeUnit.SECONDS, header = "h1")
     @RequestMapping("/uuid")
     public Map<String, Object> uuid(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>(8);
