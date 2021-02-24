@@ -129,6 +129,9 @@ public class IdempotentAspect {
 
         String key = idempotent.key() + ":" + tokenValue;
 
+        // 是否存在
+        Boolean hasKey = stringRedisTemplate.hasKey(key);
+
         // 获取 key 的过期时间
         Long expire = stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
 
