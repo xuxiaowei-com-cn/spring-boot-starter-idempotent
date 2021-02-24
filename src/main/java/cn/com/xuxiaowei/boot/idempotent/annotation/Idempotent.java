@@ -1,5 +1,7 @@
 package cn.com.xuxiaowei.boot.idempotent.annotation;
 
+import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
+
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
 
@@ -13,6 +15,19 @@ import java.util.concurrent.TimeUnit;
 @Target(ElementType.METHOD)
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface Idempotent {
+
+    /**
+     * 调用之前创建Token（在 Redis 中）
+     * <p>
+     * 默认值：false
+     * <p>
+     * 第一优先级：{@link IdempotentProperties#getDefaultBeforeCreateToken()}
+     * <p>
+     * 第二优先级
+     *
+     * @return 调用之前创建Token（在 Redis 中）
+     */
+    boolean beforeCreateToken() default false;
 
     /**
      * 幂等 Token 在 header 中的名字

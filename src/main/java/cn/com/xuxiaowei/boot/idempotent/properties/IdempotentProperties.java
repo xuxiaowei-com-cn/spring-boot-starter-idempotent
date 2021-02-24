@@ -1,5 +1,6 @@
 package cn.com.xuxiaowei.boot.idempotent.properties;
 
+import cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,17 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "xxw.idempotent")
 public class IdempotentProperties {
+
+    /**
+     * 默认 调用之前创建Token（在 Redis 中）
+     * <p>
+     * 默认值：false
+     * <p>
+     * 第一优先级
+     * <p>
+     * 第二优先级：{@link Idempotent#beforeCreateToken}
+     */
+    private Boolean defaultBeforeCreateToken;
 
     /**
      * 输入流过滤器（用于将输入流修改为可重复获取的输入流）
