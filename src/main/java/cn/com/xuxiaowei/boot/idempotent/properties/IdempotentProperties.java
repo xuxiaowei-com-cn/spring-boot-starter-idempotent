@@ -18,7 +18,7 @@ public class IdempotentProperties {
     /**
      * 输入流过滤器（用于将输入流修改为可重复获取的输入流）
      * <p>
-     * 默认为：false
+     * 默认为：false，不可为空
      */
     private Boolean inputStreamFilter = false;
 
