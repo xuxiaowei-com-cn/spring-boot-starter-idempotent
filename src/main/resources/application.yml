@@ -6,6 +6,15 @@ spring:
     database: 6
     password:
 #
+# 配置
+xxw:
+  # 幂等配置
+  idempotent:
+    # 输入流过滤器（用于将输入流修改为可重复获取的输入流）
+    # 布尔类型
+    # 默认为：false
+    input-stream-filter: false
+#
 # 日志配置
 logging:
   level:
