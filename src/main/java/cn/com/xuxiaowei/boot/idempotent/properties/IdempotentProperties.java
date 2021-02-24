@@ -34,4 +34,25 @@ public class IdempotentProperties {
      */
     private Boolean inputStreamFilter = false;
 
+    /**
+     * Redis 内容前缀
+     * <p>
+     * 默认值：idempotent
+     */
+    private String prefix = "idempotent";
+
+    /**
+     * Redis 调用记录名
+     * <p>
+     * 默认值：record
+     */
+    private String record = "record";
+
+    /**
+     * Redis 调用结果名
+     * <p>
+     * 默认值：result
+     */
+    private String result = "result";
+
 }

@@ -16,6 +16,15 @@ xxw:
     # 布尔类型
     # 默认为：false，不可为空
     input-stream-filter: false
+    # Redis 内容前缀
+    # 默认值：idempotent
+    prefix: idempotent
+    # Redis 调用记录名
+    # 默认值：record
+    record: record
+    # Redis 调用结果名
+    # 默认值：result
+    result: result
 #
 # 日志配置
 logging:
