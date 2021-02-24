@@ -4,6 +4,7 @@ import cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent;
 import cn.com.xuxiaowei.boot.idempotent.context.IdempotentContext;
 import cn.com.xuxiaowei.boot.idempotent.context.IdempotentContextHolder;
 import cn.com.xuxiaowei.boot.idempotent.context.StatusEnum;
+import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.extern.slf4j.Slf4j;
@@ -40,9 +41,16 @@ public class IdempotentAspect {
 
     private StringRedisTemplate stringRedisTemplate;
 
+    private IdempotentProperties idempotentProperties;
+
     @Autowired
     public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
+    }
+
+    @Autowired
+    public void setIdempotentProperties(IdempotentProperties idempotentProperties) {
+        this.idempotentProperties = idempotentProperties;
     }
 
     /**
@@ -132,11 +140,11 @@ public class IdempotentAspect {
      * @throws Throwable 执行异常
      */
     private Object getProceed(Idempotent idempotent, ProceedingJoinPoint joinPoint, String tokenValue) throws Throwable {
-
+        String prefix = idempotentProperties.getPrefix();
         String key = idempotent.key();
         int expireTime = idempotent.expireTime();
         TimeUnit timeUnit = idempotent.timeUnit();
-        String redisKey = key + ":" + tokenValue;
+        String redisKey = prefix + ":" + key + ":" + tokenValue;
 
         // 是否存在
         Boolean hasKey = stringRedisTemplate.hasKey(redisKey);
@@ -179,7 +187,8 @@ public class IdempotentAspect {
             idempotentContext.setNumber(1);
 
             // 幂等调用记录放入Redis
-            IdempotentContextHolder.setRedis(stringRedisTemplate, tokenValue, idempotentContext, idempotent);
+            IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentProperties, tokenValue, idempotentContext,
+                    idempotent);
             // 清空幂等调用记录线程
             IdempotentContextHolder.clearContext();
 
@@ -188,7 +197,7 @@ public class IdempotentAspect {
         } else {
 
             // 将请求放入Redis中
-            IdempotentContextHolder.repeat(stringRedisTemplate, tokenValue, idempotent);
+            IdempotentContextHolder.repeat(stringRedisTemplate, idempotentProperties, tokenValue, idempotent);
             // 清空幂等调用记录线程
             IdempotentContextHolder.clearContext();
 
