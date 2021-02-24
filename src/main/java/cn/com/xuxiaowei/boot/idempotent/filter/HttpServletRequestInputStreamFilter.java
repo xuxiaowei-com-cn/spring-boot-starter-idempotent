@@ -1,7 +1,7 @@
 package cn.com.xuxiaowei.boot.idempotent.filter;
 
 import cn.com.xuxiaowei.boot.idempotent.configuration.FilterConfiguration;
-import cn.com.xuxiaowei.boot.idempotent.util.InputStreamHttpServletRequestWrapper;
+import cn.com.xuxiaowei.boot.idempotent.http.InputStreamHttpServletRequestWrapper;
 import org.springframework.context.annotation.Bean;
 
 import javax.servlet.*;

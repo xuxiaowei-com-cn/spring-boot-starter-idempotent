@@ -1,4 +1,6 @@
-package cn.com.xuxiaowei.boot.idempotent.util;
+package cn.com.xuxiaowei.boot.idempotent.http;
+
+import cn.com.xuxiaowei.boot.idempotent.util.RequestUtils;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
