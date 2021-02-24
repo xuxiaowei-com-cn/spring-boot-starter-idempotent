@@ -19,6 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 幂等切面
@@ -127,6 +128,9 @@ public class IdempotentAspect {
     private Object getProceed(Idempotent idempotent, ProceedingJoinPoint joinPoint, String tokenValue) throws Throwable {
 
         String key = idempotent.key() + ":" + tokenValue;
+
+        // 获取 key 的过期时间
+        Long expire = stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
 
         // 获取 Redis 中缓存的值
         String redisValue = stringRedisTemplate.opsForValue().get(key);
