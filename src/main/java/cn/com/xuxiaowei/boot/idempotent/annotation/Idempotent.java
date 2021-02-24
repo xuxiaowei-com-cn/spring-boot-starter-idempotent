@@ -57,13 +57,13 @@ public @interface Idempotent {
     /**
      * 有效期时间
      * <p>
-     * 默认：1
+     * 默认：10
      * <p>
      * 单位：{@link #timeUnit()}
      *
      * @return 有效期时间
      */
-    int expireTime() default 1;
+    int expireTime() default 10;
 
     /**
      * 有效期时间单位
