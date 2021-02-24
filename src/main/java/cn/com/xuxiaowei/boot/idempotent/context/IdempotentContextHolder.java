@@ -1,10 +1,13 @@
 package cn.com.xuxiaowei.boot.idempotent.context;
 
+import cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.TimeoutUtils;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
@@ -24,10 +27,16 @@ public class IdempotentContextHolder {
      * @param stringRedisTemplate Redis 服务
      * @param key                 用于组成 Redis Key
      * @param idempotentContext   幂等内容
+     * @param idempotent          幂等注解
      */
-    public static void setRedis(StringRedisTemplate stringRedisTemplate, String key, IdempotentContext idempotentContext) {
+    public static void setRedis(StringRedisTemplate stringRedisTemplate, String key, IdempotentContext idempotentContext,
+                                Idempotent idempotent) {
+        String redisKey = "context:" + idempotent.key() + ":" + key;
         String redisValue = JSON.toJSONString(idempotentContext, SerializerFeature.WriteMapNullValue);
-        stringRedisTemplate.opsForValue().set("context:" + key, redisValue, 1, TimeUnit.DAYS);
+        LocalDateTime requestDate = idempotentContext.getRequestDate();
+        LocalDateTime expireDate = idempotentContext.getExpireDate();
+        Duration timeout = Duration.between(requestDate, expireDate);
+        stringRedisTemplate.opsForValue().set(redisKey, redisValue, timeout);
     }
 
     /**
@@ -35,10 +44,11 @@ public class IdempotentContextHolder {
      *
      * @param stringRedisTemplate Redis 服务
      * @param key                 用于组成 Redis Key
+     * @param idempotent          幂等注解
      */
-    public static void repeat(StringRedisTemplate stringRedisTemplate, String key) {
+    public static void repeat(StringRedisTemplate stringRedisTemplate, String key, Idempotent idempotent) {
 
-        String redisKey = "context:" + key;
+        String redisKey = "context:" + idempotent.key() + ":" + key;
 
         // 获取 Redis 中 幂等调用记录
         String redisTokenValue = stringRedisTemplate.opsForValue().get(redisKey);
@@ -49,16 +59,24 @@ public class IdempotentContextHolder {
         if (idempotentContext == null) {
             // Redis 中不存在 幂等调用记录
 
+            LocalDateTime requestDate = LocalDateTime.now();
+            long seconds = TimeoutUtils.toSeconds(1, TimeUnit.MINUTES);
+            LocalDateTime expireDate = requestDate.plusSeconds(seconds);
+
             // 重新创建一个幂等调用记录
             idempotentContext = IdempotentContextHolder.getCurrentContext()
-                    .setResultDate(LocalDateTime.now())
-                    .setNumber(1);
+                    .setResultDate(requestDate)
+                    .setNumber(1)
+                    .setExpireDate(expireDate);
         } else {
-            idempotentContext.setStatus(StatusEnum.REPEAT).setNumber(idempotentContext.getNumber() + 1);
+            idempotentContext.
+                    setStatus(StatusEnum.REPEAT)
+                    .setNumber(idempotentContext.getNumber() + 1)
+            ;
         }
 
         // 幂等调用记录放入Redis
-        setRedis(stringRedisTemplate, key, idempotentContext);
+        setRedis(stringRedisTemplate, key, idempotentContext, idempotent);
     }
 
     public static IdempotentContext getCurrentContext() {
