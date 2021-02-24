@@ -1,7 +1,11 @@
 package cn.com.xuxiaowei.boot.idempotent.aspect;
 
 import cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent;
+import cn.com.xuxiaowei.boot.idempotent.context.IdempotentContext;
+import cn.com.xuxiaowei.boot.idempotent.context.IdempotentContextHolder;
+import cn.com.xuxiaowei.boot.idempotent.context.StatusEnum;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -19,6 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -127,26 +132,57 @@ public class IdempotentAspect {
      */
     private Object getProceed(Idempotent idempotent, ProceedingJoinPoint joinPoint, String tokenValue) throws Throwable {
 
-        String key = idempotent.key() + ":" + tokenValue;
+        String key = idempotent.key();
+        String redisKey = key + ":" + tokenValue;
 
         // 是否存在
-        Boolean hasKey = stringRedisTemplate.hasKey(key);
+        Boolean hasKey = stringRedisTemplate.hasKey(redisKey);
 
         // 获取 key 的过期时间
-        Long expire = stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
+        Long expire = stringRedisTemplate.getExpire(redisKey, TimeUnit.SECONDS);
 
         // 获取 Redis 中缓存的值
-        String redisValue = stringRedisTemplate.opsForValue().get(key);
+        String redisValue = stringRedisTemplate.opsForValue().get(redisKey);
         if (redisValue == null) {
             // Redis 中无值
 
+            // 幂等调用记录
+            IdempotentContext idempotentContext = new IdempotentContext()
+                    // 设置Token
+                    .setToken(tokenValue)
+                    // 设置调用状态
+                    .setStatus(StatusEnum.NORMAL)
+                    // 设置请求时间
+                    .setRequestDate(LocalDateTime.now());
+
             // 执行方法
             Object proceed = joinPoint.proceed();
+
+            // 调用结果转 String
+            String value = JSON.toJSONString(proceed, SerializerFeature.WriteMapNullValue);
+
             // 将结果放入 Redis 中，添加过期时间
-            stringRedisTemplate.opsForValue().set(key, JSON.toJSONString(proceed), idempotent.expireTime(), idempotent.timeUnit());
+            stringRedisTemplate.opsForValue().set(redisKey, value, idempotent.expireTime(), idempotent.timeUnit());
+
+            // 设置响应时间
+            idempotentContext.setResultDate(LocalDateTime.now());
+            // 设置调用次数
+            idempotentContext.setNumber(1);
+
+            // 幂等调用记录放入Redis
+            IdempotentContextHolder.setRedis(stringRedisTemplate, tokenValue, idempotentContext);
+            // 清空幂等调用记录线程
+            IdempotentContextHolder.clearContext();
+
             // 返回执行结果
             return proceed;
         } else {
+
+            // 将请求放入Redis中
+            IdempotentContextHolder.repeat(stringRedisTemplate, tokenValue);
+            // 清空幂等调用记录线程
+            IdempotentContextHolder.clearContext();
+
             // 返回 Redis 中的结果
             return JSON.parseObject(redisValue);
         }
