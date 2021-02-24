@@ -1,6 +1,7 @@
 package cn.com.xuxiaowei.boot.idempotent.context;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
  * @since 0.0.1
  */
 @Data
+@Accessors(chain = true)
 public class IdempotentContext implements Serializable {
 
     private static final long serialVersionUID = 1L;
