@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-starter-idempotent</name>
     <description>Demo project for Spring Boot</description>
+    <url>https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent</url>
 
     <properties>
         <java.version>1.8</java.version>
