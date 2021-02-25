@@ -72,6 +72,14 @@
         </repository>
     </distributionManagement>
 
+    <developers>
+        <developer>
+            <name>徐晓伟</name>
+            <email>xuxiaowei@xuxiaowei.com.cn</email>
+            <organization>徐晓伟工作室</organization>
+        </developer>
+    </developers>
+
     <build>
         <plugins>
             <plugin>
