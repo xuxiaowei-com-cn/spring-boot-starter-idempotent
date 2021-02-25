@@ -12,7 +12,7 @@
     <artifactId>spring-boot-starter-idempotent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-starter-idempotent</name>
-    <description>Demo project for Spring Boot</description>
+    <description>一个基于 Spring Boot Redis 的幂等软件。</description>
     <url>https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent</url>
 
     <properties>
