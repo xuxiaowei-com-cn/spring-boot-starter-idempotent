@@ -89,6 +89,11 @@
         <developerConnection>http://xuxiaowei.com.cn</developerConnection>
     </scm>
 
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/issues</url>
+    </issueManagement>
+
     <organization>
         <name>徐晓伟工作室</name>
         <url>http://xuxiaowei.com.cn</url>
