@@ -87,6 +87,11 @@
         <connection>scm:git:https://git@github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent.git</connection>
     </scm>
 
+    <organization>
+        <name>徐晓伟工作室</name>
+        <url>http://xuxiaowei</url>
+    </organization>
+
     <developers>
         <developer>
             <name>徐晓伟</name>
