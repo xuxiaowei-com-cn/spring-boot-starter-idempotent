@@ -1,6 +1,7 @@
 package cn.com.xuxiaowei.boot.idempotent.service.impl;
 
 import cn.com.xuxiaowei.boot.idempotent.service.IdempotentRedisService;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @since 0.0.1
  */
 @Service
-public class RedisServiceImpl<T> implements IdempotentRedisService<T> {
+public class IdempotentRedisServiceImpl<T> implements IdempotentRedisService<T> {
 
     /**
      * 根据 Redis Key 获取 Redis数据
@@ -31,6 +32,7 @@ public class RedisServiceImpl<T> implements IdempotentRedisService<T> {
      * @return 返回保存结果
      */
     @Override
+    @CachePut(value="Manager",key="'a'")
     public boolean save(T data) {
         return false;
     }
