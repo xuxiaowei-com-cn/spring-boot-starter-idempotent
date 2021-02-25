@@ -20,9 +20,10 @@ public interface IdempotentRedisService<T> {
     /**
      * 将数据放入Redis中
      *
+     * @param key  Redis Key
      * @param data Redis数据
      * @return 返回保存结果
      */
-    boolean save(T data);
+    T save(String key, T data);
 
 }

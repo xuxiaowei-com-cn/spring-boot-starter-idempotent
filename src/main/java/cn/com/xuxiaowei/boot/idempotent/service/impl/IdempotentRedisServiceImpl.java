@@ -28,13 +28,14 @@ public class IdempotentRedisServiceImpl<T> implements IdempotentRedisService<T> 
     /**
      * 将数据放入Redis中
      *
+     * @param key  Redis Key
      * @param data Redis数据
      * @return 返回保存结果
      */
     @Override
-    @CachePut(value="Manager",key="'a'")
-    public boolean save(T data) {
-        return false;
+    @CachePut(value = "xuxiaowei", key = "#key")
+    public T save(String key, T data) {
+        return data;
     }
 
 }
