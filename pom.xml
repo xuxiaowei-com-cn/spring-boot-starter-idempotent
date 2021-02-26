@@ -109,7 +109,8 @@
 
     <build>
 
-        <!-- mvn clean source:jar lombok:delombok javadoc:jar deploy -DskipTests -->
+        <!-- mvn clean lombok:delombok -->
+        <!-- mvn source:jar javadoc:jar deploy -DskipTests -->
 
         <plugins>
 
@@ -119,13 +120,13 @@
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
 
-            <!-- mvn clean source:jar deploy -DskipTests -->
+            <!-- mvn clean source:jar deploy -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
 
-            <!-- mvn lombok:delombok deploy -DskipTests -->
+            <!-- mvn lombok:delombok -->
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
@@ -136,7 +137,8 @@
                 </configuration>
             </plugin>
 
-            <!-- mvn lombok:delombok javadoc:jar deploy -DskipTests -->
+            <!-- mvn lombok:delombok -->
+            <!-- mvn javadoc:jar deploy -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -146,6 +148,14 @@
                     <charset>UTF-8</charset>
                     <docencoding>UTF-8</docencoding>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>
