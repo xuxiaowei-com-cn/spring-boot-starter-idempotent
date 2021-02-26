@@ -23,6 +23,7 @@ public class InputStreamHttpServletRequestWrapper extends HttpServletRequestWrap
      * 构造包装给定请求的请求对象。
      *
      * @param request 包装请求
+     * @throws IOException 读取流异常
      */
     public InputStreamHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
         super(request);
