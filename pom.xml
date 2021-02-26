@@ -14,7 +14,7 @@
     <name>spring-boot-starter-idempotent</name>
     <description>一个基于 Spring Boot Redis 的幂等软件。</description>
     <url>https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent</url>
-    <inceptionYear>2012</inceptionYear>
+    <inceptionYear>2021</inceptionYear>
 
     <properties>
         <java.version>1.8</java.version>
