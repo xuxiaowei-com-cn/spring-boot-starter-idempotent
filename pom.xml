@@ -108,28 +108,24 @@
     </developers>
 
     <build>
+
+        <!-- mvn clean source:jar lombok:delombok javadoc:jar deploy -DskipTests -->
+
         <plugins>
 
+            <!-- mvn clean deploy -DskipTests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
 
+            <!-- mvn clean source:jar deploy -DskipTests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <charset>UTF-8</charset>
-                    <docencoding>UTF-8</docencoding>
-                </configuration>
-            </plugin>
-
+            <!-- mvn lombok:delombok deploy -DskipTests -->
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
@@ -137,6 +133,18 @@
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <sourceDirectory>src/main/java</sourceDirectory>
+                </configuration>
+            </plugin>
+
+            <!-- mvn lombok:delombok javadoc:jar deploy -DskipTests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <sourcepath>target/generated-sources/delombok</sourcepath>
+                    <encoding>UTF-8</encoding>
+                    <charset>UTF-8</charset>
+                    <docencoding>UTF-8</docencoding>
                 </configuration>
             </plugin>
 
