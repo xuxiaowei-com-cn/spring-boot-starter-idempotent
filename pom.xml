@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.com.xuxiaowei.boot</groupId>
     <artifactId>spring-boot-starter-idempotent</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.1-alpha.1</version>
     <name>spring-boot-starter-idempotent</name>
     <description>一个基于 Spring Boot Redis 的幂等软件。</description>
     <url>https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent</url>
