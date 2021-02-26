@@ -65,6 +65,7 @@ public class IdempotentAspect {
      * 环绕通知
      *
      * @param joinPoint 切面方法信息
+     * @return 执行结果
      * @throws Throwable 执行异常
      */
     @Around("pointcut()")
