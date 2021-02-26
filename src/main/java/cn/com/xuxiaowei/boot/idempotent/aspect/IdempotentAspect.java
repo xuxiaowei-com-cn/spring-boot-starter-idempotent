@@ -65,6 +65,7 @@ public class IdempotentAspect {
      * 环绕通知
      *
      * @param joinPoint 切面方法信息
+     * @throws Throwable 执行异常
      */
     @Around("pointcut()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
