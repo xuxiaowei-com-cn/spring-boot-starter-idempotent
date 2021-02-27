@@ -15,21 +15,10 @@ spring:
 xxw:
   # 幂等配置
   idempotent:
-    # 默认 调用之前创建Token（在 Redis 中）
-    # 第一优先级：{@link Idempotent#beforeCreateToken}
-    # 第二优先级：本参数
-    default-before-create-token: false
     # 输入流过滤器（用于将输入流修改为可重复获取的输入流）
     # 布尔类型
     # 默认为：false，不可为空
     input-stream-filter: false
-    # 是否启用严格模式
-    # 默认：不启动
-    # 严格模式：未匹配到 Token 直接报错
-    # 非严格模式：未匹配到 Token 跳过幂等
-    # 第一优先级：{@link Idempotent#strict()}
-    # 第二优先级：本参数
-    strict: false
     # 测试路径前缀
     # 默认值：/test
     test-prefix: /test
