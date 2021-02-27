@@ -162,7 +162,7 @@ public class IdempotentAspect {
      *
      * @param idempotent 幂等
      * @param joinPoint  切面方法信息
-     * @param tokenValue TokenValue
+     * @param tokenValue 用于组成 Redis Key Token Value
      * @return 返回 Redis 中的缓存结果
      * @throws Throwable 执行异常
      */
@@ -172,10 +172,10 @@ public class IdempotentAspect {
         String key = idempotent.key();
         int expireTime = idempotent.expireTime();
         TimeUnit timeUnit = idempotent.timeUnit();
-        String redisKey = prefix + ":" + result + ":" + key + ":" + tokenValue;
+        String redisResultKey = prefix + ":" + result + ":" + key + ":" + tokenValue;
 
         // 获取 Redis 中缓存的值
-        String redisValue = stringRedisTemplate.opsForValue().get(redisKey);
+        String redisValue = stringRedisTemplate.opsForValue().get(redisResultKey);
         if (redisValue == null) {
             // Redis 中无值
 
@@ -201,7 +201,7 @@ public class IdempotentAspect {
             String value = objectMapper.writeValueAsString(proceed);
 
             // 将结果放入 Redis 中，添加过期时间
-            stringRedisTemplate.opsForValue().set(redisKey, value, idempotent.expireTime(), idempotent.timeUnit());
+            stringRedisTemplate.opsForValue().set(redisResultKey, value, idempotent.expireTime(), idempotent.timeUnit());
 
             // 设置响应时间
             idempotentContext.setResultDate(LocalDateTime.now());

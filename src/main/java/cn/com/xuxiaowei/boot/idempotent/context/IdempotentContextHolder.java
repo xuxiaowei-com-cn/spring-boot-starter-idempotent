@@ -26,18 +26,18 @@ public class IdempotentContextHolder {
      *
      * @param stringRedisTemplate  Redis 服务
      * @param idempotentProperties 幂等 配置
-     * @param key                  用于组成 Redis Key
+     * @param tokenValue           用于组成 Redis Key Token Value
      * @param idempotentContext    幂等内容
      * @param idempotent           幂等注解
      * @param objectMapper         用于序列化和反序列化数据
      */
     @SneakyThrows
     public static void setRedis(StringRedisTemplate stringRedisTemplate, IdempotentProperties idempotentProperties,
-                                String key, IdempotentContext idempotentContext, Idempotent idempotent,
+                                String tokenValue, IdempotentContext idempotentContext, Idempotent idempotent,
                                 ObjectMapper objectMapper) {
         String prefix = idempotentProperties.getPrefix();
         String record = idempotentProperties.getRecord();
-        String redisKey = prefix + ":" + record + ":" + idempotent.key() + ":" + key;
+        String redisKey = prefix + ":" + record + ":" + idempotent.key() + ":" + tokenValue;
         String redisValue = objectMapper.writeValueAsString(idempotentContext);
         LocalDateTime requestDate = idempotentContext.getRequestDate();
         LocalDateTime expireDate = idempotentContext.getExpireDate();
@@ -50,19 +50,19 @@ public class IdempotentContextHolder {
      *
      * @param stringRedisTemplate  Redis 服务
      * @param idempotentProperties 幂等 配置
-     * @param key                  用于组成 Redis Key
+     * @param tokenValue           用于组成 Redis Key Token Value
      * @param idempotent           幂等注解
      * @param objectMapper         用于序列化和反序列化数据
      */
     @SneakyThrows
     public static void repeat(StringRedisTemplate stringRedisTemplate, IdempotentProperties idempotentProperties,
-                              String key, Idempotent idempotent, ObjectMapper objectMapper) {
+                              String tokenValue, Idempotent idempotent, ObjectMapper objectMapper) {
         String prefix = idempotentProperties.getPrefix();
         String record = idempotentProperties.getRecord();
-        String redisKey = prefix + ":" + record + ":" + idempotent.key() + ":" + key;
+        String redisRecordKey = prefix + ":" + record + ":" + idempotent.key() + ":" + tokenValue;
 
         // 获取 Redis 中 幂等调用记录
-        String redisTokenValue = stringRedisTemplate.opsForValue().get(redisKey);
+        String redisTokenValue = stringRedisTemplate.opsForValue().get(redisRecordKey);
 
         // 将幂等调用记录转为对象
         IdempotentContext idempotentContext = objectMapper.readValue(redisTokenValue, IdempotentContext.class);
@@ -87,7 +87,7 @@ public class IdempotentContextHolder {
         }
 
         // 幂等调用记录放入Redis
-        setRedis(stringRedisTemplate, idempotentProperties, key, idempotentContext, idempotent, objectMapper);
+        setRedis(stringRedisTemplate, idempotentProperties, tokenValue, idempotentContext, idempotent, objectMapper);
     }
 
     public static IdempotentContext getCurrentContext() {
