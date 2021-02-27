@@ -2,9 +2,8 @@ package cn.com.xuxiaowei.boot.idempotent.context;
 
 import cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent;
 import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.TimeoutUtils;
 
@@ -30,13 +29,16 @@ public class IdempotentContextHolder {
      * @param key                  用于组成 Redis Key
      * @param idempotentContext    幂等内容
      * @param idempotent           幂等注解
+     * @param objectMapper         用于序列化和反序列化数据
      */
+    @SneakyThrows
     public static void setRedis(StringRedisTemplate stringRedisTemplate, IdempotentProperties idempotentProperties,
-                                String key, IdempotentContext idempotentContext, Idempotent idempotent) {
+                                String key, IdempotentContext idempotentContext, Idempotent idempotent,
+                                ObjectMapper objectMapper) {
         String prefix = idempotentProperties.getPrefix();
         String record = idempotentProperties.getRecord();
         String redisKey = prefix + ":" + record + ":" + idempotent.key() + ":" + key;
-        String redisValue = JSON.toJSONString(idempotentContext, SerializerFeature.WriteMapNullValue);
+        String redisValue = objectMapper.writeValueAsString(idempotentContext);
         LocalDateTime requestDate = idempotentContext.getRequestDate();
         LocalDateTime expireDate = idempotentContext.getExpireDate();
         Duration timeout = Duration.between(requestDate, expireDate);
@@ -50,9 +52,11 @@ public class IdempotentContextHolder {
      * @param idempotentProperties 幂等 配置
      * @param key                  用于组成 Redis Key
      * @param idempotent           幂等注解
+     * @param objectMapper         用于序列化和反序列化数据
      */
+    @SneakyThrows
     public static void repeat(StringRedisTemplate stringRedisTemplate, IdempotentProperties idempotentProperties,
-                              String key, Idempotent idempotent) {
+                              String key, Idempotent idempotent, ObjectMapper objectMapper) {
         String prefix = idempotentProperties.getPrefix();
         String record = idempotentProperties.getRecord();
         String redisKey = prefix + ":" + record + ":" + idempotent.key() + ":" + key;
@@ -61,7 +65,7 @@ public class IdempotentContextHolder {
         String redisTokenValue = stringRedisTemplate.opsForValue().get(redisKey);
 
         // 将幂等调用记录转为对象
-        IdempotentContext idempotentContext = JSONObject.parseObject(redisTokenValue, IdempotentContext.class);
+        IdempotentContext idempotentContext = objectMapper.readValue(redisTokenValue, IdempotentContext.class);
 
         if (idempotentContext == null) {
             // Redis 中不存在 幂等调用记录
@@ -83,7 +87,7 @@ public class IdempotentContextHolder {
         }
 
         // 幂等调用记录放入Redis
-        setRedis(stringRedisTemplate, idempotentProperties, key, idempotentContext, idempotent);
+        setRedis(stringRedisTemplate, idempotentProperties, key, idempotentContext, idempotent, objectMapper);
     }
 
     public static IdempotentContext getCurrentContext() {

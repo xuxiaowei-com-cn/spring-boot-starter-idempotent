@@ -5,8 +5,7 @@ import cn.com.xuxiaowei.boot.idempotent.context.IdempotentContext;
 import cn.com.xuxiaowei.boot.idempotent.context.IdempotentContextHolder;
 import cn.com.xuxiaowei.boot.idempotent.context.StatusEnum;
 import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -39,9 +38,19 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class IdempotentAspect {
 
+    /**
+     * 用于序列化和反序列化数据
+     */
+    private ObjectMapper objectMapper;
+
     private StringRedisTemplate stringRedisTemplate;
 
     private IdempotentProperties idempotentProperties;
+
+    @Autowired
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Autowired
     public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
@@ -178,7 +187,7 @@ public class IdempotentAspect {
             Object proceed = joinPoint.proceed();
 
             // 调用结果转 String
-            String value = JSON.toJSONString(proceed, SerializerFeature.WriteMapNullValue);
+            String value = objectMapper.writeValueAsString(proceed);
 
             // 将结果放入 Redis 中，添加过期时间
             stringRedisTemplate.opsForValue().set(redisKey, value, idempotent.expireTime(), idempotent.timeUnit());
@@ -190,7 +199,7 @@ public class IdempotentAspect {
 
             // 幂等调用记录放入Redis
             IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentProperties, tokenValue, idempotentContext,
-                    idempotent);
+                    idempotent, objectMapper);
             // 清空幂等调用记录线程
             IdempotentContextHolder.clearContext();
 
@@ -199,12 +208,12 @@ public class IdempotentAspect {
         } else {
 
             // 将请求放入Redis中
-            IdempotentContextHolder.repeat(stringRedisTemplate, idempotentProperties, tokenValue, idempotent);
+            IdempotentContextHolder.repeat(stringRedisTemplate, idempotentProperties, tokenValue, idempotent, objectMapper);
             // 清空幂等调用记录线程
             IdempotentContextHolder.clearContext();
 
             // 返回 Redis 中的结果
-            return JSON.parseObject(redisValue);
+            return objectMapper.readValue(redisValue, Object.class);
         }
     }
 
