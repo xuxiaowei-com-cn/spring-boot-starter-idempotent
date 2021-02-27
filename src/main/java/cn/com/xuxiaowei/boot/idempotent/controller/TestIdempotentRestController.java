@@ -38,6 +38,22 @@ public class TestIdempotentRestController {
     }
 
     /**
+     * Map 严格模式
+     *
+     * @param request  请求
+     * @param response 响应
+     * @return 返回 Map
+     */
+    @Idempotent(strict = true, key = "key1", expireTime = 10, timeUnit = TimeUnit.SECONDS, header = "h1")
+    @RequestMapping("/map-strict")
+    public Map<String, Object> mapStrict(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, Object> map = new HashMap<>(8);
+        map.put("uuid", UUID.randomUUID().toString());
+        log.info(String.valueOf(map));
+        return map;
+    }
+
+    /**
      * List
      *
      * @param request  请求
