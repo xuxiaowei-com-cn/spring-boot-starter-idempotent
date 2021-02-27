@@ -57,10 +57,16 @@ public class RequestUtils {
     public static String getInputStream(HttpServletRequest request) throws IOException {
         ServletInputStream inputStream = request.getInputStream();
         int contentLength = request.getContentLength();
-        byte[] bytes = new byte[contentLength];
-        String characterEncoding = request.getCharacterEncoding();
-        inputStream.read(bytes);
-        return new String(bytes, characterEncoding);
+        if (contentLength == -1) {
+            // GET 请求时
+            // DELETE、HEAD、OPTIONS 请求未设置流时
+            return null;
+        } else {
+            byte[] bytes = new byte[contentLength];
+            String characterEncoding = request.getCharacterEncoding();
+            inputStream.read(bytes);
+            return new String(bytes, characterEncoding);
+        }
     }
 
     /**
