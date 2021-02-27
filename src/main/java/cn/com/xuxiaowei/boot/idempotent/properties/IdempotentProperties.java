@@ -35,6 +35,13 @@ public class IdempotentProperties {
     private Boolean inputStreamFilter = false;
 
     /**
+     * 测试路径前缀
+     * <p>
+     * 默认值：/test
+     */
+    private String testPrefix;
+
+    /**
      * Redis 内容前缀
      * <p>
      * 默认值：idempotent

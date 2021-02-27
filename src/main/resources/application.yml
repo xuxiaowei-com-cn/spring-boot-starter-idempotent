@@ -21,6 +21,9 @@ xxw:
     # 布尔类型
     # 默认为：false，不可为空
     input-stream-filter: false
+    # 测试路径前缀
+    # 默认值：/test
+    test-prefix: /test
     # Redis 内容前缀
     # 默认值：idempotent
     prefix: idempotent

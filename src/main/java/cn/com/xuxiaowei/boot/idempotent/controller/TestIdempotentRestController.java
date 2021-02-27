@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @RestController
-@RequestMapping("/test/idempotent")
+@RequestMapping("${xxw.idempotent.test-prefix:/test}/idempotent")
 public class TestIdempotentRestController {
 
     /**
