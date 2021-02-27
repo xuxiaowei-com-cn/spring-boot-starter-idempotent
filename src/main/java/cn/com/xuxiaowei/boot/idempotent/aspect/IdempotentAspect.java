@@ -158,10 +158,11 @@ public class IdempotentAspect {
      */
     private Object getProceed(Idempotent idempotent, ProceedingJoinPoint joinPoint, String tokenValue) throws Throwable {
         String prefix = idempotentProperties.getPrefix();
+        String result = idempotentProperties.getResult();
         String key = idempotent.key();
         int expireTime = idempotent.expireTime();
         TimeUnit timeUnit = idempotent.timeUnit();
-        String redisKey = prefix + ":" + key + ":" + tokenValue;
+        String redisKey = prefix + ":" + result + ":" + key + ":" + tokenValue;
 
         // 是否存在
         Boolean hasKey = stringRedisTemplate.hasKey(redisKey);
