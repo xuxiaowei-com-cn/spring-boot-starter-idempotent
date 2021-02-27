@@ -81,7 +81,7 @@ public class TestIdempotentRestController {
      * @param response 响应
      * @return 返回 Integer
      */
-    @Idempotent(key = "key3", expireTime = 10, timeUnit = TimeUnit.SECONDS, header = "h3")
+    @Idempotent(key = "key3", expireTime = 10, timeUnit = TimeUnit.SECONDS, param = "h3")
     @RequestMapping("/integer")
     public Integer integer(HttpServletRequest request, HttpServletResponse response) {
         Random random = new Random();
