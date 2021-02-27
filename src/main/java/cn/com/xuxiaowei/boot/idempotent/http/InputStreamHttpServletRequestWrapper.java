@@ -29,7 +29,7 @@ public class InputStreamHttpServletRequestWrapper extends HttpServletRequestWrap
         super(request);
         String characterEncoding = request.getCharacterEncoding();
         String inputStream = RequestUtils.getInputStream(request);
-        body = inputStream.getBytes(characterEncoding);
+        body = inputStream == null ? null : inputStream.getBytes(characterEncoding);
     }
 
     @Override
