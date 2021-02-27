@@ -6,6 +6,7 @@ import cn.com.xuxiaowei.boot.idempotent.context.IdempotentContextHolder;
 import cn.com.xuxiaowei.boot.idempotent.context.StatusEnum;
 import cn.com.xuxiaowei.boot.idempotent.exception.NotExistentTokenException;
 import cn.com.xuxiaowei.boot.idempotent.exception.NotExistentTokenNameException;
+import cn.com.xuxiaowei.boot.idempotent.exception.ServletRequestException;
 import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -96,11 +97,7 @@ public class IdempotentAspect {
 
         if (servletRequestAttributes == null) {
             // 未获取到请求
-
-            log.error("幂等切面前置通知未获取到 ServletRequestAttributes，幂等切面失效");
-
-            // 执行方法并返回结果
-            return joinPoint.proceed();
+            throw new ServletRequestException("幂等切面前置通知未获取到 ServletRequestAttributes，幂等切面失效");
         } else {
 
             // 获取 Http 请求
