@@ -16,6 +16,8 @@ xxw:
   # 幂等配置
   idempotent:
     # 默认 调用之前创建Token（在 Redis 中）
+    # 第一优先级：{@link Idempotent#beforeCreateToken}
+    # 第二优先级：本参数
     default-before-create-token: false
     # 输入流过滤器（用于将输入流修改为可重复获取的输入流）
     # 布尔类型

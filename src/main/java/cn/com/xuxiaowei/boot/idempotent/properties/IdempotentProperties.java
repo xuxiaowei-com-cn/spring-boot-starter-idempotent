@@ -21,9 +21,9 @@ public class IdempotentProperties {
      * <p>
      * 默认值：false
      * <p>
-     * 第一优先级
+     * 第一优先级：{@link Idempotent#beforeCreateToken}
      * <p>
-     * 第二优先级：{@link Idempotent#beforeCreateToken}
+     * 第二优先级：本属性
      */
     private Boolean defaultBeforeCreateToken;
 

@@ -21,9 +21,9 @@ public @interface Idempotent {
      * <p>
      * 默认值：false
      * <p>
-     * 第一优先级：{@link IdempotentProperties#getDefaultBeforeCreateToken()}
+     * 第一优先级：本属性
      * <p>
-     * 第二优先级
+     * 第二优先级：{@link IdempotentProperties#getDefaultBeforeCreateToken()}
      *
      * @return 调用之前创建Token（在 Redis 中）
      */
