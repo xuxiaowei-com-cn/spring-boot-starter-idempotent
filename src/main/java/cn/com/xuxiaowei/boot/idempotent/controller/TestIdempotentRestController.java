@@ -44,7 +44,7 @@ public class TestIdempotentRestController {
      * @param response 响应
      * @return 返回 Map
      */
-    @Idempotent(strict = true, key = "key1", expireTime = 10, timeUnit = TimeUnit.SECONDS, header = "h1")
+    @Idempotent(strict = true, key = "key1", expireTime = 10, timeUnit = TimeUnit.SECONDS)
     @RequestMapping("/map-strict")
     public Map<String, Object> mapStrict(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>(8);
