@@ -169,15 +169,18 @@ public class IdempotentAspect {
     private Object getProceed(Idempotent idempotent, ProceedingJoinPoint joinPoint, String tokenValue) throws Throwable {
         String prefix = idempotentProperties.getPrefix();
         String result = idempotentProperties.getResult();
+        String record = idempotentProperties.getRecord();
         String key = idempotent.key();
         int expireTime = idempotent.expireTime();
         TimeUnit timeUnit = idempotent.timeUnit();
+        String redisRecordKey = prefix + ":" + record + ":" + key + ":" + tokenValue;
         String redisResultKey = prefix + ":" + result + ":" + key + ":" + tokenValue;
 
-        // 获取 Redis 中缓存的值
-        String redisValue = stringRedisTemplate.opsForValue().get(redisResultKey);
-        if (redisValue == null) {
-            // Redis 中无值
+        // 获取 Redis 中 幂等调用结果
+        String redisResultValue = stringRedisTemplate.opsForValue().get(redisResultKey);
+
+        if (redisResultValue == null) {
+            // Redis 中 无 幂等调用结果
 
             LocalDateTime requestDate = LocalDateTime.now();
             long seconds = TimeoutUtils.toSeconds(expireTime, timeUnit);
@@ -209,8 +212,7 @@ public class IdempotentAspect {
             idempotentContext.setNumber(1);
 
             // 幂等调用记录放入Redis
-            IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentProperties, tokenValue, idempotentContext,
-                    idempotent, objectMapper);
+            IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
             // 清空幂等调用记录线程
             IdempotentContextHolder.clearContext();
 
@@ -219,12 +221,12 @@ public class IdempotentAspect {
         } else {
 
             // 将请求放入Redis中
-            IdempotentContextHolder.repeat(stringRedisTemplate, idempotentProperties, tokenValue, idempotent, objectMapper);
+            IdempotentContextHolder.repeat(stringRedisTemplate, idempotent, objectMapper, redisRecordKey);
             // 清空幂等调用记录线程
             IdempotentContextHolder.clearContext();
 
             // 返回 Redis 中的结果
-            return objectMapper.readValue(redisValue, Object.class);
+            return objectMapper.readValue(redisResultValue, Object.class);
         }
     }
 
