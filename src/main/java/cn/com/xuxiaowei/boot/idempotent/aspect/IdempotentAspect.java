@@ -184,7 +184,7 @@ public class IdempotentAspect {
             LocalDateTime expireDate = requestDate.plusSeconds(seconds);
 
             // 幂等调用记录
-            IdempotentContext idempotentContext = new IdempotentContext()
+            IdempotentContext idempotentContext = IdempotentContextHolder.getCurrentContext()
                     // 设置Token
                     .setToken(tokenValue)
                     // 设置调用状态
