@@ -43,8 +43,14 @@ public class IdempotentAspect {
      */
     private ObjectMapper objectMapper;
 
+    /**
+     * 用于存取Redis数据
+     */
     private StringRedisTemplate stringRedisTemplate;
 
+    /**
+     * 幂等配置
+     */
     private IdempotentProperties idempotentProperties;
 
     @Autowired
