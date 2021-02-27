@@ -123,7 +123,7 @@
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
-                <version>1.18.16.0</version>
+                <version>1.18.18.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <sourceDirectory>src/main/java</sourceDirectory>
