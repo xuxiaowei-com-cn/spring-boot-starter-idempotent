@@ -4,6 +4,8 @@ import cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent;
 import cn.com.xuxiaowei.boot.idempotent.context.IdempotentContext;
 import cn.com.xuxiaowei.boot.idempotent.context.IdempotentContextHolder;
 import cn.com.xuxiaowei.boot.idempotent.context.StatusEnum;
+import cn.com.xuxiaowei.boot.idempotent.exception.NotExistentTokenException;
+import cn.com.xuxiaowei.boot.idempotent.exception.NotExistentTokenNameException;
 import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -107,6 +109,7 @@ public class IdempotentAspect {
             MethodSignature methodSignature = (MethodSignature) signature;
             Method method = methodSignature.getMethod();
             Idempotent idempotent = method.getAnnotation(Idempotent.class);
+            boolean strict = idempotent.strict();
 
             // 获取幂等在请求头中的TokenName
             String header = idempotent.header();
@@ -129,18 +132,26 @@ public class IdempotentAspect {
                     // 根据参数中的TokenValue获取Redis中缓存的结果
                     return getProceed(idempotent, joinPoint, paramValue);
                 } else {
-                    log.error("幂等从请求中未获取到Token，幂等失效");
+                    // 不存在 Token
 
+                    if (strict) {
+                        throw new NotExistentTokenException(String.format("严格模式下，从 %s 中未获取到 Token", method));
+                    } else {
+                        log.error("非严格模式下，幂等从请求中未获取到Token，幂等失效");
+                        // 执行方法并返回结果
+                        return joinPoint.proceed();
+                    }
+                }
+            } else {
+                // 不存在 Token Name
+
+                if (strict) {
+                    throw new NotExistentTokenNameException(String.format("严格模式下，从 %s 中未获取到 Token Name", method));
+                } else {
+                    log.error("幂等注解 header、param 均为空，幂等失效");
                     // 执行方法并返回结果
                     return joinPoint.proceed();
                 }
-            } else {
-                // 不存在请求头或参数中的TokenName
-
-                log.error("幂等注解 header、param 均为空，幂等失效");
-
-                // 执行方法并返回结果
-                return joinPoint.proceed();
             }
 
         }
