@@ -23,6 +23,13 @@ xxw:
     # 布尔类型
     # 默认为：false，不可为空
     input-stream-filter: false
+    # 是否启用严格模式
+    # 默认：不启动
+    # 严格模式：未匹配到 Token 直接报错
+    # 非严格模式：未匹配到 Token 跳过幂等
+    # 第一优先级：{@link Idempotent#strict()}
+    # 第二优先级：本参数
+    strict: false
     # 测试路径前缀
     # 默认值：/test
     test-prefix: /test

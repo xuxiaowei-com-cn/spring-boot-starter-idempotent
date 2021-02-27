@@ -30,6 +30,23 @@ public @interface Idempotent {
     boolean beforeCreateToken() default false;
 
     /**
+     * 是否启用严格模式
+     * <p>
+     * 默认：不启动
+     * <p>
+     * 严格模式：未匹配到 Token 直接报错
+     * <p>
+     * 非严格模式：未匹配到 Token 跳过幂等
+     * <p>
+     * 第一优先级：本参数
+     * <p>
+     * 第二优先级：{@link IdempotentProperties#getStrict()}
+     *
+     * @return 是否启用严格模式
+     */
+    boolean strict() default false;
+
+    /**
      * 幂等 Token 在 header 中的名字
      * <p>
      * 第一优先级

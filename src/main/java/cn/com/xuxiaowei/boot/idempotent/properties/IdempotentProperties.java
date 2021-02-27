@@ -35,6 +35,21 @@ public class IdempotentProperties {
     private Boolean inputStreamFilter = false;
 
     /**
+     * 是否启用严格模式
+     * <p>
+     * 默认：不启动
+     * <p>
+     * 严格模式：未匹配到 Token 直接报错
+     * <p>
+     * 非严格模式：未匹配到 Token 跳过幂等
+     * <p>
+     * 第一优先级：{@link Idempotent#strict()}
+     * <p>
+     * 第二优先级：本参数
+     */
+    private Boolean strict = false;
+
+    /**
      * 测试路径前缀
      * <p>
      * 默认值：/test
