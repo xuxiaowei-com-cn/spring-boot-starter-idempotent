@@ -1,5 +1,7 @@
 package cn.com.xuxiaowei.boot.idempotent.annotation;
 
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +21,7 @@ public @interface Idempotent {
      * <p>
      * 默认：不启动
      * <p>
-     * 严格模式：未匹配到 Token 直接报错
+     * 严格模式：未匹配到 Token 直接报错，请开发者使用 {@link ControllerAdvice 拦截异常}
      * <p>
      * 非严格模式：未匹配到 Token 跳过幂等
      *
