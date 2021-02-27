@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,19 +22,37 @@ import java.util.concurrent.TimeUnit;
 public class TestIdempotentRestController {
 
     /**
-     * UUID
+     * Map
      *
      * @param request  请求
      * @param response 响应
-     * @return 返回 UUID
+     * @return 返回 Map
      */
     @Idempotent(key = "key1", expireTime = 10, timeUnit = TimeUnit.SECONDS, header = "h1")
-    @RequestMapping("/uuid")
-    public Map<String, Object> uuid(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/map")
+    public Map<String, Object> map(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>(8);
         map.put("uuid", UUID.randomUUID().toString());
         log.info(String.valueOf(map));
         return map;
+    }
+
+    /**
+     * List
+     *
+     * @param request  请求
+     * @param response 响应
+     * @return 返回 List
+     */
+    @Idempotent(key = "key2", expireTime = 10, timeUnit = TimeUnit.SECONDS, header = "h2")
+    @RequestMapping("/list")
+    public List<Map<String, Object>> list(HttpServletRequest request, HttpServletResponse response) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>(8);
+        list.add(map);
+        map.put("uuid", UUID.randomUUID().toString());
+        log.info(String.valueOf(list));
+        return list;
     }
 
 }
