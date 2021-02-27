@@ -55,4 +55,20 @@ public class TestIdempotentRestController {
         return list;
     }
 
+    /**
+     * Integer
+     *
+     * @param request  请求
+     * @param response 响应
+     * @return 返回 Integer
+     */
+    @Idempotent(key = "key3", expireTime = 10, timeUnit = TimeUnit.SECONDS, header = "h3")
+    @RequestMapping("/integer")
+    public Integer integer(HttpServletRequest request, HttpServletResponse response) {
+        Random random = new Random();
+        int i = random.nextInt();
+        log.info(String.valueOf(i));
+        return i;
+    }
+
 }
