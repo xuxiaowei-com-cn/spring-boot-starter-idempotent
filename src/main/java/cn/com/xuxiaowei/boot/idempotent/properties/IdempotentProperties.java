@@ -27,7 +27,7 @@ public class IdempotentProperties {
      * <p>
      * 默认值：/test
      */
-    private String testPrefix;
+    private String testPrefix = "/test";
 
     /**
      * Redis 内容前缀
