@@ -13,5 +13,3 @@
 - spring-boot-configuration-processor
 
 - lombok
-
-- fastjson
