@@ -174,12 +174,6 @@ public class IdempotentAspect {
         TimeUnit timeUnit = idempotent.timeUnit();
         String redisKey = prefix + ":" + result + ":" + key + ":" + tokenValue;
 
-        // 是否存在
-        Boolean hasKey = stringRedisTemplate.hasKey(redisKey);
-
-        // 获取 key 的过期时间
-        Long expire = stringRedisTemplate.getExpire(redisKey, TimeUnit.SECONDS);
-
         // 获取 Redis 中缓存的值
         String redisValue = stringRedisTemplate.opsForValue().get(redisKey);
         if (redisValue == null) {
