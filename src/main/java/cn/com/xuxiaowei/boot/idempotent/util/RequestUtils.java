@@ -1,6 +1,7 @@
 package cn.com.xuxiaowei.boot.idempotent.util;
 
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -38,9 +39,11 @@ public class RequestUtils {
      * @param request 请求
      * @return 返回 请求参数集
      */
+    @SneakyThrows
     public static String keyValueJson(HttpServletRequest request) {
         Map<String, String[]> parameterMap = request.getParameterMap();
-        return JSONObject.toJSONString(parameterMap);
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(parameterMap);
     }
 
     /**
