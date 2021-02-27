@@ -1,7 +1,5 @@
 package cn.com.xuxiaowei.boot.idempotent.annotation;
 
-import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
-
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
 
@@ -17,19 +15,6 @@ import java.util.concurrent.TimeUnit;
 public @interface Idempotent {
 
     /**
-     * 调用之前创建Token（在 Redis 中）
-     * <p>
-     * 默认值：false
-     * <p>
-     * 第一优先级：本属性
-     * <p>
-     * 第二优先级：{@link IdempotentProperties#getDefaultBeforeCreateToken()}
-     *
-     * @return 调用之前创建Token（在 Redis 中）
-     */
-    boolean beforeCreateToken() default false;
-
-    /**
      * 是否启用严格模式
      * <p>
      * 默认：不启动
@@ -37,10 +22,6 @@ public @interface Idempotent {
      * 严格模式：未匹配到 Token 直接报错
      * <p>
      * 非严格模式：未匹配到 Token 跳过幂等
-     * <p>
-     * 第一优先级：本参数
-     * <p>
-     * 第二优先级：{@link IdempotentProperties#getStrict()}
      *
      * @return 是否启用严格模式
      */
