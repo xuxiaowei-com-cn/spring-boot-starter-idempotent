@@ -2,6 +2,8 @@ package cn.com.xuxiaowei.boot.idempotent.controller;
 
 import cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +20,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @RestController
+@ConditionalOnExpression("${xxw.idempotent.test:false}")
 @RequestMapping("${xxw.idempotent.test-prefix:/test}/idempotent")
 public class TestIdempotentRestController {
 

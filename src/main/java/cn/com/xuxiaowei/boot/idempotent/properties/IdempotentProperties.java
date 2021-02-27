@@ -1,5 +1,6 @@
 package cn.com.xuxiaowei.boot.idempotent.properties;
 
+import cn.com.xuxiaowei.boot.idempotent.controller.TestIdempotentRestController;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -18,9 +19,16 @@ public class IdempotentProperties {
     /**
      * 输入流过滤器（用于将输入流修改为可重复获取的输入流）
      * <p>
-     * 默认为：false，不可为空
+     * 默认值：false，不可为空
      */
     private Boolean inputStreamFilter = false;
+
+    /**
+     * 是否启用测试 Controller {@link TestIdempotentRestController}
+     * <p>
+     * 默认值：false
+     */
+    private Boolean test = false;
 
     /**
      * 测试路径前缀

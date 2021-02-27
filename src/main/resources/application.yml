@@ -17,8 +17,12 @@ xxw:
   idempotent:
     # 输入流过滤器（用于将输入流修改为可重复获取的输入流）
     # 布尔类型
-    # 默认为：false，不可为空
+    # 默认值：false，不可为空
     input-stream-filter: false
+    # 是否启用测试 Controller {@link TestIdempotentRestController}
+    # 布尔类型
+    # 默认值：false
+    test: false
     # 测试路径前缀
     # 默认值：/test
     test-prefix: /test
