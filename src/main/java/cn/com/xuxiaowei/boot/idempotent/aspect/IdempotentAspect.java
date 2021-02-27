@@ -89,6 +89,8 @@ public class IdempotentAspect {
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 
         // 获取请求
+        // 在 Spring Cloud 中，需要配置 hystrix.command.default.execution.isolation.strategy=SEMAPHORE
+        // 否则 RequestContextHolder.getRequestAttributes() 为空
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
 
