@@ -1,5 +1,8 @@
 package cn.com.xuxiaowei.boot.idempotent.annotation;
 
+import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.lang.annotation.*;
@@ -41,11 +44,35 @@ public @interface Idempotent {
     /**
      * 幂等 Token 在 参数 中的名字
      * <p>
-     * 第二优先级（当{@link #header}为空时）
+     * 第二优先级（当 {@link #header} 为空时）
      *
      * @return 返回幂等Token在参数中的名字
      */
     String param() default "";
+
+    /**
+     * 幂等 Token 在 请求流 中的名字
+     * <p>
+     * 第三优先级（当 {@link #header}、{@link #param} 都为空时）
+     * <p>
+     * 使用流时，需要启用 {@link IdempotentProperties#setInputStreamFilter(Boolean)}，否则流只能读取一次（在 AOP 中读取之后，
+     * {@link Controller} 中无法获取流）
+     * <p>
+     * 请求流需要是JSON类型（Text类型也可以，但是需要能使用 {@link ObjectMapper#readValue(String, Class)} 转换为 JSON）的数据
+     * <p>
+     * 请求流中的 Token Name 使用 . 分割，如：
+     * Token Name 为：tokenName，数据结构：
+     * <code>
+     * {"tokenName":"a1"}
+     * </code>
+     * Token Name 为：data.tokenName，数据结构：
+     * <code>
+     * {"data":{"tokenName":"a1"}}
+     * </code>
+     *
+     * @return 返回幂等Token在请求流中的名字
+     */
+    String stream() default "";
 
     /**
      * 幂等放入Redis中的键值

@@ -10,6 +10,7 @@ import cn.com.xuxiaowei.boot.idempotent.exception.ServletRequestException;
 import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
 import cn.com.xuxiaowei.boot.idempotent.util.Constants;
 import cn.com.xuxiaowei.boot.idempotent.util.DateUtils;
+import cn.com.xuxiaowei.boot.idempotent.util.RequestUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -119,8 +120,10 @@ public class IdempotentAspect {
             String header = idempotent.header();
             // 获取幂等在请求参数中的TokenName
             String param = idempotent.param();
+            // 获取幂等在请求流中的TokenName
+            String stream = idempotent.stream();
 
-            if (StringUtils.hasText(header) || StringUtils.hasText(param)) {
+            if (StringUtils.hasText(header) || StringUtils.hasText(param) || StringUtils.hasText(stream)) {
                 // 存在请求头或参数中的TokenName
 
                 // 获取请求头中的TokenValue
@@ -129,13 +132,18 @@ public class IdempotentAspect {
                 String paramValue = request.getParameter(param);
 
                 if (StringUtils.hasText(headerValue)) {
-                    // 存在请求头中的TokenValue
                     // 根据请求头中的TokenValue获取Redis中缓存的结果
                     return getProceed(response, idempotent, joinPoint, headerValue);
                 } else if (StringUtils.hasText(paramValue)) {
                     // 根据参数中的TokenValue获取Redis中缓存的结果
                     return getProceed(response, idempotent, joinPoint, paramValue);
                 } else {
+                    String streamValue = RequestUtils.getInputStreamNode(request, stream);
+                    if (StringUtils.hasText(streamValue)) {
+                        // 根据请求流中的TokenValue获取Redis中缓存的结果
+                        return getProceed(response, idempotent, joinPoint, streamValue);
+                    }
+
                     // 不存在 Token
 
                     if (strict) {
