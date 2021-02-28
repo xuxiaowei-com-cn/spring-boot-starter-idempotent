@@ -3,7 +3,6 @@ package cn.com.xuxiaowei.boot.idempotent.controller;
 import cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
