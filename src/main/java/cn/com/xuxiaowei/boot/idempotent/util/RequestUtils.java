@@ -70,6 +70,19 @@ public class RequestUtils {
     }
 
     /**
+     * 根据 节点名称（使用 . 分隔） 获取 请求流中的参数
+     *
+     * @param request  请求
+     * @param nodeName 节点名称，使用 . 分隔
+     * @return 返回 请求流中的参数
+     * @throws IOException 读取流异常
+     */
+    public static String getInputStreamNode(HttpServletRequest request, String nodeName) throws IOException {
+        String inputStream = getInputStream(request);
+        return JsonUtils.getNode(nodeName, inputStream);
+    }
+
+    /**
      * 移除参数
      *
      * @param queryString 参数
