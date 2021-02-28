@@ -7,6 +7,8 @@ import cn.com.xuxiaowei.boot.idempotent.controller.TestIdempotentRestController;
 import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
 import org.springframework.context.annotation.Import;
 
+import java.lang.annotation.*;
+
 /**
  * 开启幂等
  *
@@ -18,6 +20,10 @@ import org.springframework.context.annotation.Import;
  * @see IdempotentProperties 幂等 配置
  * @since 0.0.1
  */
+@Inherited
+@Documented
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
 @Import({IdempotentAspect.class, FilterConfiguration.class, SerializerDeserializerConfiguration.class,
         TestIdempotentRestController.class, IdempotentProperties.class})
 public @interface EnableIdempotent {
