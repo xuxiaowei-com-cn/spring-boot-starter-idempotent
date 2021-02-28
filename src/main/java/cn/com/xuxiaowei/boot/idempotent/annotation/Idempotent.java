@@ -101,4 +101,26 @@ public @interface Idempotent {
      */
     TimeUnit timeUnit() default TimeUnit.SECONDS;
 
+    /**
+     * {@link Controller} 执行超时时间
+     * <p>
+     * 默认：2
+     * <p>
+     * 单位：{@link #unit()}
+     * <p>
+     * 超过此时间必有响应
+     *
+     * @return 返回 执行超时时间
+     */
+    long timeout() default 2;
+
+    /**
+     * {@link Controller} 执行超时时间单位
+     * <p>
+     * 默认：s
+     *
+     * @return 返回 执行超时时间单位
+     */
+    TimeUnit unit() default TimeUnit.SECONDS;
+
 }
