@@ -39,4 +39,5 @@ xxw:
 # 日志配置
 logging:
   level:
+    web: debug
     cn.com.xuxiaowei.boot.idempotent: debug
