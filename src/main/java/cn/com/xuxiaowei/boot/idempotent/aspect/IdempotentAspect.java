@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * 幂等切面
@@ -44,6 +44,8 @@ import java.util.concurrent.TimeUnit;
 @Aspect
 @Component
 public class IdempotentAspect {
+
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
 
     /**
      * 用于序列化和反序列化数据
@@ -192,10 +194,10 @@ public class IdempotentAspect {
         String redisRecordKey = prefix + ":" + record + ":" + key + ":" + tokenValue;
         String redisResultKey = prefix + ":" + result + ":" + key + ":" + tokenValue;
 
-        // 获取 Redis 中 幂等调用结果
-        String redisResultValue = stringRedisTemplate.opsForValue().get(redisResultKey);
+        // 获取 Redis 中 幂等调用记录
+        String redisRecordValue = stringRedisTemplate.opsForValue().get(redisRecordKey);
 
-        if (redisResultValue == null) {
+        if (redisRecordValue == null) {
             // Redis 中 无 幂等调用结果
 
             LocalDateTime requestDate = LocalDateTime.now();
@@ -206,34 +208,14 @@ public class IdempotentAspect {
             IdempotentContext idempotentContext = new IdempotentContext()
                     // 设置Token
                     .setToken(tokenValue)
-                    // 设置调用状态
-                    .setStatus(StatusEnum.NORMAL)
                     // 设置请求时间
                     .setRequestDate(requestDate)
                     // 过期时间
                     .setExpireDate(expireDate);
 
-            // 执行方法
-            Object proceed = joinPoint.proceed();
-
-            // 调用结果转 String
-            String value = objectMapper.writeValueAsString(proceed);
-
-            // 将结果放入 Redis 中，添加过期时间
-            stringRedisTemplate.opsForValue().set(redisResultKey, value, idempotent.expireTime(), idempotent.timeUnit());
-
-            // 设置响应时间
-            idempotentContext.setResultDate(LocalDateTime.now());
-            // 设置调用次数
-            idempotentContext.setNumber(1);
-
-            // 幂等调用记录放入Redis
-            IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
-
-            setHeader(response, idempotentContext);
-
             // 返回执行结果
-            return proceed;
+            return ruture(joinPoint, redisResultKey, idempotent,
+                    idempotentContext, redisRecordKey, response);
         } else {
 
             // 将请求放入Redis中
@@ -242,9 +224,91 @@ public class IdempotentAspect {
 
             setHeader(response, idempotentContext);
 
+            // 获取 Redis 中 幂等调用结果
+            String redisResultValue = stringRedisTemplate.opsForValue().get(redisResultKey);
+
             // 返回 Redis 中的结果
             return objectMapper.readValue(redisResultValue, Object.class);
         }
+    }
+
+    /**
+     * Future 线程
+     * <p>
+     * 终止超时线程：<code>future.cancel(true);</code>
+     *
+     * @return 返回 执行结果
+     */
+    private Object ruture(ProceedingJoinPoint joinPoint, String redisResultKey, Idempotent idempotent,
+                          IdempotentContext idempotentContext, String redisRecordKey, HttpServletResponse response) {
+
+        // 设置调用次数
+        idempotentContext.setNumber(idempotentContext.getNumber() + 1);
+
+        Future<Object> future = EXECUTOR_SERVICE.submit(() -> {
+
+            Object proceed;
+
+            try {
+                // 执行方法
+                proceed = joinPoint.proceed();
+
+                // 设置调用状态
+                idempotentContext.setStatus(StatusEnum.NORMAL);
+
+                // 调用结果转 String
+                String value = objectMapper.writeValueAsString(proceed);
+
+                // 将结果放入 Redis 中，添加过期时间
+                stringRedisTemplate.opsForValue().set(redisResultKey, value, idempotent.expireTime(), idempotent.timeUnit());
+
+                // 设置响应时间
+                idempotentContext.setResultDate(LocalDateTime.now());
+
+                // 幂等调用记录放入Redis
+                IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
+
+                setHeader(response, idempotentContext);
+
+            } catch (Throwable e) {
+                throw new Exception(e);
+            }
+            return proceed;
+        });
+
+        Object proceed;
+
+        try {
+            proceed = future.get(idempotent.timeout(), idempotent.unit());
+        } catch (InterruptedException e) {
+            log.error("任务中断", e);
+
+            // 设置调用状态
+            idempotentContext.setStatus(StatusEnum.INTERRUPTED);
+
+            proceed = null;
+        } catch (ExecutionException e) {
+            log.error("执行异常", e);
+
+            // 设置调用状态
+            idempotentContext.setStatus(StatusEnum.EXCEPTION);
+
+            proceed = null;
+        } catch (TimeoutException e) {
+            log.error("超时异常", e);
+
+            // 设置调用状态
+            idempotentContext.setStatus(StatusEnum.EXECUTE);
+
+            proceed = null;
+        }
+
+        // 幂等调用记录放入Redis
+        IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
+
+        setHeader(response, idempotentContext);
+
+        return proceed;
     }
 
     /**
