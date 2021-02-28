@@ -21,7 +21,7 @@ public class JsonUtils {
      * @return 返回 JSON 中的数据
      * @throws JsonProcessingException 读取 JSON 异常
      */
-    private static String getNode(String nodeName, String json) throws JsonProcessingException {
+    public static String getNode(String nodeName, String json) throws JsonProcessingException {
         if (StringUtils.hasText(nodeName) && StringUtils.hasText(json)) {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(json);
