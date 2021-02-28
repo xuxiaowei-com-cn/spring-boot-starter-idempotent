@@ -230,7 +230,8 @@ public class IdempotentAspect {
             String redisResultValue = stringRedisTemplate.opsForValue().get(redisResultKey);
 
             // 返回 Redis 中的结果
-            return objectMapper.readValue(redisResultValue, Object.class);
+            // 异常时空值处理
+            return redisResultValue == null ? null : objectMapper.readValue(redisResultValue, Object.class);
         }
     }
 
