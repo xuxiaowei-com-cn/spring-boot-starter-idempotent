@@ -149,10 +149,11 @@ public class IdempotentAspect {
             } else {
                 // 不存在 Token Name
 
+                log.error("幂等注解 header、param、stream 均为空，幂等失效");
+
                 if (strict) {
                     throw new NotExistentTokenNameException(String.format("严格模式下，从 %s 中未获取到 Token Name", method));
                 } else {
-                    log.error("幂等注解 header、param 均为空，幂等失效");
                     // 执行方法并返回结果
                     return joinPoint.proceed();
                 }
