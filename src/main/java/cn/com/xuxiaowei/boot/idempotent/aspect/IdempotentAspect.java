@@ -265,8 +265,8 @@ public class IdempotentAspect {
                     // 将幂等调用记录转为对象
                     IdempotentContext idempotentContextRedis = objectMapper.readValue(redisRecordValue, IdempotentContext.class);
 
-                    // 设置调用次数
-                    idempotentContext.setNumber(idempotentContextRedis.getNumber() + 1);
+                    // 设置调用次数（在这里不需要 +1）
+                    idempotentContext.setNumber(idempotentContextRedis.getNumber());
                 }
 
                 // 设置调用状态
