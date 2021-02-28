@@ -32,7 +32,8 @@ public class JsonUtils {
                 nodeName = nodeName.substring(fieldName.length() + 1);
                 tokenNameSplit = nodeName.split("\\.");
             }
-            return jsonNode.get(nodeName).toString();
+            JsonNode jsonNodeValue = jsonNode.get(nodeName);
+            return jsonNodeValue == null ? null : jsonNodeValue.toString();
         } else {
             return null;
         }
