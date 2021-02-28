@@ -44,8 +44,8 @@ public class IdempotentContextHolder {
      * @param redisRecordKey      幂等调用记录 Redis Key
      */
     @SneakyThrows
-    public static IdempotentContext repeat(StringRedisTemplate stringRedisTemplate, Idempotent idempotent, ObjectMapper objectMapper,
-                                           String redisRecordKey) {
+    public static IdempotentContext repeat(StringRedisTemplate stringRedisTemplate, Idempotent idempotent,
+                                           ObjectMapper objectMapper, String redisRecordKey) {
 
         // 获取 Redis 中 幂等调用记录
         String redisRecordValue = stringRedisTemplate.opsForValue().get(redisRecordKey);
