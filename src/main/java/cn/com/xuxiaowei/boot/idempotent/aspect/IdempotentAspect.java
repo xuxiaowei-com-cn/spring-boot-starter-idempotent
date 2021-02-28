@@ -266,13 +266,13 @@ public class IdempotentAspect {
         response.setHeader(IdempotentContext.TOKEN, token);
         response.setHeader(IdempotentContext.STATUS, status.toString());
 
-        response.setHeader(IdempotentContext.TOKEN_DATE, tokenDate == null ? null :
+        response.setHeader(IdempotentContext.TOKEN_DATE, tokenDate == null ? "" :
                 DateUtils.localDateTimeFormat(tokenDate, Constants.DEFAULT_DATE_TIME_FORMAT));
-        response.setHeader(IdempotentContext.REQUEST_DATE, requestDate == null ? null :
+        response.setHeader(IdempotentContext.REQUEST_DATE, requestDate == null ? "" :
                 DateUtils.localDateTimeFormat(requestDate, Constants.DEFAULT_DATE_TIME_FORMAT));
-        response.setHeader(IdempotentContext.RESULT_DATE, resultDate == null ? null :
+        response.setHeader(IdempotentContext.RESULT_DATE, resultDate == null ? "" :
                 DateUtils.localDateTimeFormat(resultDate, Constants.DEFAULT_DATE_TIME_FORMAT));
-        response.setHeader(IdempotentContext.EXPIRE_DATE, expireDate == null ? null :
+        response.setHeader(IdempotentContext.EXPIRE_DATE, expireDate == null ? "" :
                 DateUtils.localDateTimeFormat(expireDate, Constants.DEFAULT_DATE_TIME_FORMAT));
 
         response.setHeader(IdempotentContext.NUMBER, number + "");
