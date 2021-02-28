@@ -1,16 +1,16 @@
 # RELEASE
 
-# ⭐ New Features
+# ⭐ New Features | 新功能
 -
 
-# 🐞 Bug Fixes
+# 🐞 Bug Fixes | 漏洞修补
 - 
 
-# 📔 Documentation
+# 📔 Documentation | 文档
 - 
 
-# 🔨 Dependency Upgrades
+# 🔨 Dependency Upgrades | 依赖项升级
 - 
 
-# ❤ Contributors
+# ❤ Contributors | 贡献者
 - 
