@@ -222,6 +222,7 @@ public class IdempotentAspect {
             IdempotentContext idempotentContext = IdempotentContextHolder.repeat(stringRedisTemplate, idempotent,
                     objectMapper, redisRecordKey);
 
+            // 设置幂等响应 Header
             setHeader(response, idempotentContext);
 
             // 获取 Redis 中 幂等调用结果
@@ -268,6 +269,7 @@ public class IdempotentAspect {
                 // 幂等调用记录放入Redis
                 IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
 
+                // 设置幂等响应 Header
                 setHeader(response, idempotentContext);
 
             } catch (Throwable e) {
@@ -306,6 +308,7 @@ public class IdempotentAspect {
         // 幂等调用记录放入Redis
         IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
 
+        // 设置幂等响应 Header
         setHeader(response, idempotentContext);
 
         return proceed;
