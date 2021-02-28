@@ -86,12 +86,11 @@ public class IdempotentContext implements Serializable {
     /**
      * 调用次数
      * <p>
-     * -1：未创建幂等，未找到
      * 0：已创建，未调用
      * 1：调用一次
      * 2：调用两次
      * 3：调用三次
      */
-    private Integer number = -1;
+    private Integer number = 0;
 
 }
