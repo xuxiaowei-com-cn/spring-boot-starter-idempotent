@@ -36,6 +36,16 @@ public enum StatusEnum {
     /**
      * 过期
      */
-    EXPIRE
+    EXPIRE,
+
+    /**
+     * 中断
+     */
+    INTERRUPTED,
+
+    /**
+     * 异常
+     */
+    EXCEPTION,
 
 }
