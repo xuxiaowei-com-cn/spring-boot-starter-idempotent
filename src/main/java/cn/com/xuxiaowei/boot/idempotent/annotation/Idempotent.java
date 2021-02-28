@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @since 0.0.1
  */
 @Inherited
+@Documented
 @Target(ElementType.METHOD)
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface Idempotent {
