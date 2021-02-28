@@ -8,6 +8,8 @@ import cn.com.xuxiaowei.boot.idempotent.exception.NotExistentTokenException;
 import cn.com.xuxiaowei.boot.idempotent.exception.NotExistentTokenNameException;
 import cn.com.xuxiaowei.boot.idempotent.exception.ServletRequestException;
 import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
+import cn.com.xuxiaowei.boot.idempotent.util.Constants;
+import cn.com.xuxiaowei.boot.idempotent.util.DateUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -26,6 +28,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
@@ -102,6 +105,8 @@ public class IdempotentAspect {
 
             // 获取 Http 请求
             HttpServletRequest request = servletRequestAttributes.getRequest();
+            // 获取 Http 响应
+            HttpServletResponse response = servletRequestAttributes.getResponse();
 
             // 获取幂等注解
             Signature signature = joinPoint.getSignature();
@@ -126,10 +131,10 @@ public class IdempotentAspect {
                 if (StringUtils.hasText(headerValue)) {
                     // 存在请求头中的TokenValue
                     // 根据请求头中的TokenValue获取Redis中缓存的结果
-                    return getProceed(idempotent, joinPoint, headerValue);
+                    return getProceed(response, idempotent, joinPoint, headerValue);
                 } else if (StringUtils.hasText(paramValue)) {
                     // 根据参数中的TokenValue获取Redis中缓存的结果
-                    return getProceed(idempotent, joinPoint, paramValue);
+                    return getProceed(response, idempotent, joinPoint, paramValue);
                 } else {
                     // 不存在 Token
 
@@ -160,13 +165,15 @@ public class IdempotentAspect {
     /**
      * 获取 Redis 中的缓存结果
      *
+     * @param response   Http 响应
      * @param idempotent 幂等
      * @param joinPoint  切面方法信息
      * @param tokenValue 用于组成 Redis Key Token Value
      * @return 返回 Redis 中的缓存结果
      * @throws Throwable 执行异常
      */
-    private Object getProceed(Idempotent idempotent, ProceedingJoinPoint joinPoint, String tokenValue) throws Throwable {
+    private Object getProceed(HttpServletResponse response, Idempotent idempotent, ProceedingJoinPoint joinPoint,
+                              String tokenValue) throws Throwable {
         String prefix = idempotentProperties.getPrefix();
         String result = idempotentProperties.getResult();
         String record = idempotentProperties.getRecord();
@@ -187,7 +194,7 @@ public class IdempotentAspect {
             LocalDateTime expireDate = requestDate.plusSeconds(seconds);
 
             // 幂等调用记录
-            IdempotentContext idempotentContext = IdempotentContextHolder.getCurrentContext()
+            IdempotentContext idempotentContext = new IdempotentContext()
                     // 设置Token
                     .setToken(tokenValue)
                     // 设置调用状态
@@ -213,21 +220,54 @@ public class IdempotentAspect {
 
             // 幂等调用记录放入Redis
             IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
-            // 清空幂等调用记录线程
-            IdempotentContextHolder.clearContext();
+
+            setHeader(response, idempotentContext);
 
             // 返回执行结果
             return proceed;
         } else {
 
             // 将请求放入Redis中
-            IdempotentContextHolder.repeat(stringRedisTemplate, idempotent, objectMapper, redisRecordKey);
-            // 清空幂等调用记录线程
-            IdempotentContextHolder.clearContext();
+            IdempotentContext idempotentContext = IdempotentContextHolder.repeat(stringRedisTemplate, idempotent,
+                    objectMapper, redisRecordKey);
+
+            setHeader(response, idempotentContext);
 
             // 返回 Redis 中的结果
             return objectMapper.readValue(redisResultValue, Object.class);
         }
+    }
+
+    /**
+     * 设置幂等响应 Header
+     *
+     * @param response          Http 响应
+     * @param idempotentContext 幂等调用记录
+     */
+    private void setHeader(HttpServletResponse response, IdempotentContext idempotentContext) {
+
+        String token = idempotentContext.getToken();
+        StatusEnum status = idempotentContext.getStatus();
+        LocalDateTime tokenDate = idempotentContext.getTokenDate();
+        LocalDateTime requestDate = idempotentContext.getRequestDate();
+        LocalDateTime resultDate = idempotentContext.getResultDate();
+        LocalDateTime expireDate = idempotentContext.getExpireDate();
+        Integer number = idempotentContext.getNumber();
+
+        response.setHeader(IdempotentContext.TOKEN, token);
+        response.setHeader(IdempotentContext.STATUS, status.toString());
+
+        response.setHeader(IdempotentContext.TOKEN_DATE, tokenDate == null ? null :
+                DateUtils.localDateTimeFormat(tokenDate, Constants.DEFAULT_DATE_TIME_FORMAT));
+        response.setHeader(IdempotentContext.REQUEST_DATE, requestDate == null ? null :
+                DateUtils.localDateTimeFormat(requestDate, Constants.DEFAULT_DATE_TIME_FORMAT));
+        response.setHeader(IdempotentContext.RESULT_DATE, resultDate == null ? null :
+                DateUtils.localDateTimeFormat(resultDate, Constants.DEFAULT_DATE_TIME_FORMAT));
+        response.setHeader(IdempotentContext.EXPIRE_DATE, expireDate == null ? null :
+                DateUtils.localDateTimeFormat(expireDate, Constants.DEFAULT_DATE_TIME_FORMAT));
+
+        response.setHeader(IdempotentContext.NUMBER, number + "");
+
     }
 
 }

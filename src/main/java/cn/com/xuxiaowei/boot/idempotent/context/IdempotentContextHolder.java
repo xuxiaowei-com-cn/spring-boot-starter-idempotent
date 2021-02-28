@@ -18,8 +18,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class IdempotentContextHolder {
 
-    private static final ThreadLocal<IdempotentContext> HOLDER = ThreadLocal.withInitial(IdempotentContext::new);
-
     /**
      * 幂等调用记录放入Redis
      *
@@ -46,8 +44,8 @@ public class IdempotentContextHolder {
      * @param redisRecordKey      幂等调用记录 Redis Key
      */
     @SneakyThrows
-    public static void repeat(StringRedisTemplate stringRedisTemplate, Idempotent idempotent, ObjectMapper objectMapper,
-                              String redisRecordKey) {
+    public static IdempotentContext repeat(StringRedisTemplate stringRedisTemplate, Idempotent idempotent, ObjectMapper objectMapper,
+                                           String redisRecordKey) {
 
         // 获取 Redis 中 幂等调用记录
         String redisRecordValue = stringRedisTemplate.opsForValue().get(redisRecordKey);
@@ -66,7 +64,7 @@ public class IdempotentContextHolder {
             LocalDateTime expireDate = requestDate.plusSeconds(seconds);
 
             // 重新创建一个幂等调用记录
-            idempotentContext = IdempotentContextHolder.getCurrentContext()
+            idempotentContext = new IdempotentContext()
                     .setResultDate(requestDate)
                     .setNumber(1)
                     .setExpireDate(expireDate);
@@ -76,18 +74,8 @@ public class IdempotentContextHolder {
 
         // 幂等调用记录放入Redis
         setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
-    }
 
-    public static IdempotentContext getCurrentContext() {
-        return HOLDER.get();
-    }
-
-    public static void setCurrentContext(IdempotentContext currentContext) {
-        HOLDER.set(currentContext);
-    }
-
-    public static void clearContext() {
-        HOLDER.remove();
+        return idempotentContext;
     }
 
 }
