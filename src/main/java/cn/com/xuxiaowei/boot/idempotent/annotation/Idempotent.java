@@ -104,7 +104,7 @@ public @interface Idempotent {
     /**
      * {@link Controller} 执行超时时间
      * <p>
-     * 默认：2
+     * 默认：2，小于等于 0 代表不启用
      * <p>
      * 单位：{@link #timeoutUnit()}
      * <p>
