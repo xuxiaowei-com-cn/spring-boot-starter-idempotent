@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.TimeoutUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -234,7 +235,7 @@ public class IdempotentAspect {
     }
 
     /**
-     * Future 线程
+     * {@link Future} 线程 控制 {@link Controller} 在指定时间内一定给响应
      * <p>
      * 终止超时线程：<code>future.cancel(true);</code>
      *
