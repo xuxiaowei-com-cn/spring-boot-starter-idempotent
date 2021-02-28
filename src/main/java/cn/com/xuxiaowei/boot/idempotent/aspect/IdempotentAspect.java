@@ -214,9 +214,42 @@ public class IdempotentAspect {
                     // 过期时间
                     .setExpireDate(expireDate);
 
-            // 返回执行结果
-            return ruture(joinPoint, redisResultKey, idempotent,
-                    idempotentContext, redisRecordKey, response);
+            if (idempotent.timeout() <= 0) {
+                // 超时时间设置小于等于 0, 代表不启用
+
+                // 设置调用状态
+                idempotentContext.setStatus(StatusEnum.NORMAL);
+
+                // 执行方法
+                Object proceed = joinPoint.proceed();
+
+                // 调用结果转 String
+                String value = objectMapper.writeValueAsString(proceed);
+
+                // 将结果放入 Redis 中，添加过期时间
+                stringRedisTemplate.opsForValue().set(redisResultKey, value, expireTime, expireUnit);
+
+                // 设置响应时间
+                idempotentContext.setResultDate(LocalDateTime.now());
+
+                // 设置调用次数
+                idempotentContext.setNumber(1);
+
+                // 幂等调用记录放入Redis
+                IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
+
+                setHeader(response, idempotentContext);
+
+                // 返回执行结果
+                return proceed;
+            } else {
+                // 超时时间设置小于等于 0, 代表启用
+
+                // 返回执行结果
+                return ruture(joinPoint, redisResultKey, idempotent,
+                        idempotentContext, redisRecordKey, response);
+            }
+
         } else {
 
             // 将请求放入Redis中
