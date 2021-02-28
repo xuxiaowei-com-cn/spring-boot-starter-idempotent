@@ -57,10 +57,10 @@ public class IdempotentContextHolder {
             // Redis 中不存在 幂等调用记录
 
             int expireTime = idempotent.expireTime();
-            TimeUnit timeUnit = idempotent.timeUnit();
+            TimeUnit expireUnit = idempotent.expireUnit();
 
             LocalDateTime requestDate = LocalDateTime.now();
-            long seconds = TimeoutUtils.toSeconds(expireTime, timeUnit);
+            long seconds = TimeoutUtils.toSeconds(expireTime, expireUnit);
             LocalDateTime expireDate = requestDate.plusSeconds(seconds);
 
             // 重新创建一个幂等调用记录

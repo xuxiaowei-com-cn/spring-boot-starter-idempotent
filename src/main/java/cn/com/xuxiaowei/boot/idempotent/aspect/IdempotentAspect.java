@@ -191,7 +191,7 @@ public class IdempotentAspect {
         String record = idempotentProperties.getRecord();
         String key = idempotent.key();
         int expireTime = idempotent.expireTime();
-        TimeUnit timeUnit = idempotent.timeUnit();
+        TimeUnit expireUnit = idempotent.expireUnit();
         String redisRecordKey = prefix + ":" + record + ":" + key + ":" + tokenValue;
         String redisResultKey = prefix + ":" + result + ":" + key + ":" + tokenValue;
 
@@ -202,7 +202,7 @@ public class IdempotentAspect {
             // Redis 中 无 幂等调用结果
 
             LocalDateTime requestDate = LocalDateTime.now();
-            long seconds = TimeoutUtils.toSeconds(expireTime, timeUnit);
+            long seconds = TimeoutUtils.toSeconds(expireTime, expireUnit);
             LocalDateTime expireDate = requestDate.plusSeconds(seconds);
 
             // 幂等调用记录
@@ -276,7 +276,7 @@ public class IdempotentAspect {
                 String value = objectMapper.writeValueAsString(proceed);
 
                 // 将结果放入 Redis 中，添加过期时间
-                stringRedisTemplate.opsForValue().set(redisResultKey, value, idempotent.expireTime(), idempotent.timeUnit());
+                stringRedisTemplate.opsForValue().set(redisResultKey, value, idempotent.expireTime(), idempotent.expireUnit());
 
                 // 设置响应时间
                 idempotentContext.setResultDate(LocalDateTime.now());
@@ -296,7 +296,7 @@ public class IdempotentAspect {
         Object proceed;
 
         try {
-            proceed = future.get(idempotent.timeout(), idempotent.unit());
+            proceed = future.get(idempotent.timeout(), idempotent.timeoutUnit());
         } catch (InterruptedException e) {
             log.error("任务中断", e);
 

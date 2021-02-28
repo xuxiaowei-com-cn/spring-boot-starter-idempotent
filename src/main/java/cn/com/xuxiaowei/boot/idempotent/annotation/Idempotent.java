@@ -86,7 +86,7 @@ public @interface Idempotent {
      * <p>
      * 默认：10
      * <p>
-     * 单位：{@link #timeUnit()}
+     * 单位：{@link #expireUnit()}
      *
      * @return 有效期时间
      */
@@ -99,14 +99,14 @@ public @interface Idempotent {
      *
      * @return {@link TimeUnit}
      */
-    TimeUnit timeUnit() default TimeUnit.SECONDS;
+    TimeUnit expireUnit() default TimeUnit.SECONDS;
 
     /**
      * {@link Controller} 执行超时时间
      * <p>
      * 默认：2
      * <p>
-     * 单位：{@link #unit()}
+     * 单位：{@link #timeoutUnit()}
      * <p>
      * 超过此时间必有响应
      *
@@ -121,6 +121,6 @@ public @interface Idempotent {
      *
      * @return 返回 执行超时时间单位
      */
-    TimeUnit unit() default TimeUnit.SECONDS;
+    TimeUnit timeoutUnit() default TimeUnit.SECONDS;
 
 }

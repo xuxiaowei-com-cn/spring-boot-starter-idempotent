@@ -30,7 +30,7 @@ public class TestIdempotentRestController {
      * @param response 响应
      * @return 返回 Map
      */
-    @Idempotent(key = "key1", expireTime = 10, timeUnit = TimeUnit.SECONDS, header = "h1")
+    @Idempotent(key = "key1", expireTime = 10, expireUnit = TimeUnit.SECONDS, header = "h1")
     @RequestMapping("/map")
     public Map<String, Object> map(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>(8);
@@ -46,7 +46,7 @@ public class TestIdempotentRestController {
      * @param response 响应
      * @return 返回 Map
      */
-    @Idempotent(strict = true, key = "key1", expireTime = 10, timeUnit = TimeUnit.SECONDS)
+    @Idempotent(strict = true, key = "key1", expireTime = 10, expireUnit = TimeUnit.SECONDS)
     @RequestMapping("/map-strict")
     public Map<String, Object> mapStrict(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>(8);
@@ -62,7 +62,7 @@ public class TestIdempotentRestController {
      * @param response 响应
      * @return 返回 List
      */
-    @Idempotent(key = "key2", expireTime = 10, timeUnit = TimeUnit.SECONDS, header = "h2")
+    @Idempotent(key = "key2", expireTime = 10, expireUnit = TimeUnit.SECONDS, header = "h2")
     @RequestMapping("/list")
     public List<Map<String, Object>> list(HttpServletRequest request, HttpServletResponse response) {
         List<Map<String, Object>> list = new ArrayList<>();
@@ -80,7 +80,7 @@ public class TestIdempotentRestController {
      * @param response 响应
      * @return 返回 Integer
      */
-    @Idempotent(key = "key3", expireTime = 10, timeUnit = TimeUnit.SECONDS, param = "h3")
+    @Idempotent(key = "key3", expireTime = 10, expireUnit = TimeUnit.SECONDS, param = "h3")
     @RequestMapping("/integer")
     public Integer integer(HttpServletRequest request, HttpServletResponse response) {
         Random random = new Random();
@@ -96,7 +96,7 @@ public class TestIdempotentRestController {
      * @param response 响应
      * @return 返回 int
      */
-    @Idempotent(key = "key3", expireTime = 10, timeUnit = TimeUnit.SECONDS, stream = "h4")
+    @Idempotent(key = "key3", expireTime = 10, expireUnit = TimeUnit.SECONDS, stream = "h4")
     @RequestMapping("/int")
     public int i(HttpServletRequest request, HttpServletResponse response) {
         Random random = new Random();
