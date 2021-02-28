@@ -19,6 +19,41 @@ public class IdempotentContext implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 幂等 Token 放入响应 Header 中的 Name
+     */
+    public static final String TOKEN = "token";
+
+    /**
+     * 幂等状态 放入响应 Header 中的 Name
+     */
+    public static final String STATUS = "status";
+
+    /**
+     * 幂等Token创建时间 放入响应 Header 中的 Name
+     */
+    public static final String TOKEN_DATE = "tokenDate";
+
+    /**
+     * 请求时间（首次） 放入响应 Header 中的 Name
+     */
+    public static final String REQUEST_DATE = "requestDate";
+
+    /**
+     * 执行结果时间（首次） 放入响应 Header 中的 Name
+     */
+    public static final String RESULT_DATE = "resultDate";
+
+    /**
+     * 过期时间 放入响应 Header 中的 Name
+     */
+    public static final String EXPIRE_DATE = "expireDate";
+
+    /**
+     * 调用次数 放入响应 Header 中的 Name
+     */
+    public static final String NUMBER = "number";
+
+    /**
      * 幂等 Token
      */
     private String token;
