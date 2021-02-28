@@ -11,6 +11,11 @@ import org.springframework.context.annotation.Import;
  * 开启幂等
  *
  * @author xuxiaowei
+ * @see IdempotentAspect 幂等切面
+ * @see FilterConfiguration 过滤器配置
+ * @see SerializerDeserializerConfiguration 序列化与反序列化 配置
+ * @see TestIdempotentRestController 测试幂等
+ * @see IdempotentProperties 幂等 配置
  * @since 0.0.1
  */
 @Import({IdempotentAspect.class, FilterConfiguration.class, SerializerDeserializerConfiguration.class,
