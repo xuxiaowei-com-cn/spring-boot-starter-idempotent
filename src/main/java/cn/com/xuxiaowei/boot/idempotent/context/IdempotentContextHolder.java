@@ -69,7 +69,10 @@ public class IdempotentContextHolder {
                     .setNumber(1)
                     .setExpireDate(expireDate);
         } else {
-            idempotentContext.setStatus(StatusEnum.REPEAT).setNumber(idempotentContext.getNumber() + 1);
+            StatusEnum status = idempotentContext.getStatus();
+            // 只有上次正常调用，本次才将状态改为重复调用，否则维持上次状态
+            status = status == StatusEnum.NORMAL ? StatusEnum.REPEAT : status;
+            idempotentContext.setStatus(status).setNumber(idempotentContext.getNumber() + 1);
         }
 
         // 幂等调用记录放入Redis
