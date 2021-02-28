@@ -256,6 +256,19 @@ public class IdempotentAspect {
                 // 执行方法
                 proceed = joinPoint.proceed();
 
+                // 获取 Redis 中 幂等调用结果
+                String redisRecordValue = stringRedisTemplate.opsForValue().get(redisRecordKey);
+
+                if (redisRecordValue != null) {
+                    // 超时（超时时会放入一个调用超时记录在 Redis 中）
+
+                    // 将幂等调用记录转为对象
+                    IdempotentContext idempotentContextRedis = objectMapper.readValue(redisRecordValue, IdempotentContext.class);
+
+                    // 设置调用次数
+                    idempotentContext.setNumber(idempotentContextRedis.getNumber() + 1);
+                }
+
                 // 设置调用状态
                 idempotentContext.setStatus(StatusEnum.NORMAL);
 
