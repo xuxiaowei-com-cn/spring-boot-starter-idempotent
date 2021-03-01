@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 幂等内容持有者
+ * 幂等调用记录持有者
  *
  * @author xuxiaowei
  * @since 0.0.1
@@ -22,7 +22,7 @@ public class IdempotentContextHolder {
      * 幂等调用记录放入Redis
      *
      * @param stringRedisTemplate Redis 服务
-     * @param idempotentContext   幂等内容
+     * @param idempotentContext   幂等调用记录
      * @param objectMapper        用于序列化和反序列化数据
      */
     @SneakyThrows

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 幂等内容
+ * 幂等调用记录
  *
  * @author xuxiaowei
  * @since 0.0.1
