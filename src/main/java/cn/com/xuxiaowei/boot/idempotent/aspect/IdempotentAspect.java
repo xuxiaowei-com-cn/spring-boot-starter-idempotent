@@ -107,16 +107,13 @@ public class IdempotentAspect {
             throw new ServletRequestException("幂等切面前置通知未获取到 ServletRequestAttributes，幂等切面失效");
         } else {
 
-            // 获取 Http 请求
-            HttpServletRequest request = servletRequestAttributes.getRequest();
-            // 获取 Http 响应
-            HttpServletResponse response = servletRequestAttributes.getResponse();
-
             // 获取幂等注解
             Signature signature = joinPoint.getSignature();
             MethodSignature methodSignature = (MethodSignature) signature;
             Method method = methodSignature.getMethod();
             Idempotent idempotent = method.getAnnotation(Idempotent.class);
+
+            // 是否启用严格模式
             boolean strict = idempotent.strict();
 
             // 获取幂等在请求头中的TokenName
@@ -128,6 +125,11 @@ public class IdempotentAspect {
 
             if (StringUtils.hasText(header) || StringUtils.hasText(param) || StringUtils.hasText(stream)) {
                 // 存在请求头或参数中的TokenName
+
+                // 获取 Http 请求
+                HttpServletRequest request = servletRequestAttributes.getRequest();
+                // 获取 Http 响应
+                HttpServletResponse response = servletRequestAttributes.getResponse();
 
                 // 获取请求头中的TokenValue
                 String headerValue = request.getHeader(header);
