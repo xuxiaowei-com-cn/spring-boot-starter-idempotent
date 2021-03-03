@@ -107,21 +107,12 @@ public @interface Idempotent {
      * <p>
      * 默认：2，小于等于 0 代表不启用
      * <p>
-     * 单位：{@link #timeoutUnit()}
+     * 单位：s
      * <p>
      * 超过此时间必有响应
      *
      * @return 返回 执行超时时间
      */
     long timeout() default 2;
-
-    /**
-     * {@link Controller} 执行超时时间单位
-     * <p>
-     * 默认：s
-     *
-     * @return 返回 执行超时时间单位
-     */
-    TimeUnit timeoutUnit() default TimeUnit.SECONDS;
 
 }

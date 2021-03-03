@@ -329,7 +329,7 @@ public class IdempotentAspect {
         Object proceed;
 
         try {
-            proceed = future.get(idempotent.timeout(), idempotent.timeoutUnit());
+            proceed = future.get(idempotent.timeout(), TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             log.error("任务中断", e);
 
