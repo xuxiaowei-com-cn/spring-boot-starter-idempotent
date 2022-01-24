@@ -1,0 +1,25 @@
+stages:
+  - tr-deploy
+
+#
+# tr-deploy
+#
+tr-deploy:
+  stage: tr-deploy
+  script:
+    - git --version
+    - NAME=`mvn -e -U help:evaluate -Dexpression=project.name -q -DforceStdout`
+    - VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`
+    - PACKAGING=`mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout`
+    - echo 名称：$NAME
+    - echo 版本：$VERSION
+    - echo 包：$PACKAGING
+    - echo 常量网址：https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+    - echo 当前分支：$CI_COMMIT_BRANCH
+    - echo 主分支：$CI_DEFAULT_BRANCH
+    - echo 项目路径：$CI_PROJECT_DIR
+    - mvn clean -U package source:jar javadoc:jar deploy -DskipTests && echo 发布完成
+  tags:
+    - tr-deploy
+  only:
+    - tr-deploy
