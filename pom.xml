@@ -120,22 +120,27 @@
         <plugins>
 
             <!-- mvn clean deploy -DskipTests -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.9.0</version>
             </plugin>
 
             <!-- mvn clean source:jar deploy -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
             </plugin>
 
             <!-- mvn lombok:delombok -->
+            <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin -->
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
-                <version>1.18.18.0</version>
+                <version>1.18.20.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <sourceDirectory>src/main/java</sourceDirectory>
@@ -144,9 +149,11 @@
 
             <!-- mvn lombok:delombok -->
             <!-- mvn javadoc:jar deploy -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.1</version>
                 <configuration>
                     <sourcepath>target/generated-sources/delombok</sourcepath>
                     <encoding>UTF-8</encoding>
