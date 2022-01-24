@@ -143,7 +143,9 @@
                 <version>1.18.20.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <sourceDirectory>src/main/java</sourceDirectory>
+                    <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+                    <outputDirectory>target/generated-sources/delombok</outputDirectory>
+                    <addOutputDirectory>false</addOutputDirectory>
                 </configuration>
             </plugin>
 
