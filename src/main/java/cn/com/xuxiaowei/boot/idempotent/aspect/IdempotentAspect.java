@@ -211,13 +211,18 @@ public class IdempotentAspect {
             IdempotentContext idempotentContext = new IdempotentContext()
                     // 设置Token
                     .setToken(tokenValue)
+                    // 未执行
+                    .setStatus(StatusEnum.BEFORE_EXECUTE)
                     // 设置请求时间
                     .setRequestDate(requestDate)
                     // 过期时间
                     .setExpireDate(expireDate);
 
+            // 幂等调用记录（执行 Controller 之前）放入Redis
+            IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
+
             if (idempotent.timeout() <= 0) {
-                // 超时时间设置小于等于 0, 代表不启用
+                // 超时时间设置小于等于 0, 代表不启用超时
 
                 // 执行方法
                 Object proceed = joinPoint.proceed();
@@ -228,8 +233,9 @@ public class IdempotentAspect {
                 // 将结果放入 Redis 中，添加过期时间
                 stringRedisTemplate.opsForValue().set(redisResultKey, value, expireTime, expireUnit);
 
-                // 设置调用状态
-                idempotentContext.setStatus(StatusEnum.NORMAL)
+                idempotentContext
+                        // 设置调用状态
+                        .setStatus(StatusEnum.AFTER_EXECUTE)
                         // 设置响应时间
                         .setResultDate(LocalDateTime.now())
                         // 设置调用次数
@@ -243,7 +249,7 @@ public class IdempotentAspect {
                 // 返回执行结果
                 return proceed;
             } else {
-                // 超时时间设置小于等于 0, 代表启用
+                // 超时时间设置大于 0, 代表启用超时
 
                 // 返回执行结果
                 return ruture(joinPoint, redisResultKey, idempotent,
@@ -254,7 +260,7 @@ public class IdempotentAspect {
 
             // 将请求放入Redis中
             IdempotentContext idempotentContext = IdempotentContextHolder.repeat(stringRedisTemplate, idempotent,
-                    objectMapper, redisRecordKey);
+                    objectMapper, redisRecordKey, redisRecordValue);
 
             // 设置幂等响应 Header
             setHeader(response, idempotentContext);
@@ -278,9 +284,6 @@ public class IdempotentAspect {
     private Object ruture(ProceedingJoinPoint joinPoint, String redisResultKey, Idempotent idempotent,
                           IdempotentContext idempotentContext, String redisRecordKey, HttpServletResponse response) {
 
-        // 设置调用次数
-        idempotentContext.setNumber(idempotentContext.getNumber() + 1);
-
         Future<Object> future = EXECUTOR_SERVICE.submit(() -> {
 
             Object proceed;
@@ -289,31 +292,18 @@ public class IdempotentAspect {
                 // 执行方法
                 proceed = joinPoint.proceed();
 
-                // 获取 Redis 中 幂等调用结果
-                String redisRecordValue = stringRedisTemplate.opsForValue().get(redisRecordKey);
-
-                if (redisRecordValue != null) {
-                    // 超时（超时时会放入一个调用超时记录在 Redis 中）
-
-                    // 将幂等调用记录转为对象
-                    IdempotentContext idempotentContextRedis = objectMapper.readValue(redisRecordValue, IdempotentContext.class);
-
-                    // 设置调用次数（在这里不需要 +1）
-                    idempotentContext.setNumber(idempotentContextRedis.getNumber());
-                }
-
-                // 设置调用状态
-                idempotentContext.setStatus(StatusEnum.NORMAL);
-
                 // 调用结果转 String
                 String value = objectMapper.writeValueAsString(proceed);
-
                 // 将结果放入 Redis 中，添加过期时间
                 stringRedisTemplate.opsForValue().set(redisResultKey, value, idempotent.expireTime(), idempotent.expireUnit());
 
-                // 设置响应时间
-                idempotentContext.setResultDate(LocalDateTime.now());
-
+                idempotentContext
+                        // 设置调用状态
+                        .setStatus(StatusEnum.AFTER_EXECUTE)
+                        // 设置响应时间
+                        .setResultDate(LocalDateTime.now())
+                        // 设置调用次数
+                        .setNumber(1);
                 // 幂等调用记录放入Redis
                 IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
 
@@ -372,7 +362,6 @@ public class IdempotentAspect {
 
         String token = idempotentContext.getToken();
         StatusEnum status = idempotentContext.getStatus();
-        LocalDateTime tokenDate = idempotentContext.getTokenDate();
         LocalDateTime requestDate = idempotentContext.getRequestDate();
         LocalDateTime resultDate = idempotentContext.getResultDate();
         LocalDateTime expireDate = idempotentContext.getExpireDate();
@@ -381,8 +370,6 @@ public class IdempotentAspect {
         response.setHeader(IdempotentContext.TOKEN, token);
         response.setHeader(IdempotentContext.STATUS, status.toString());
 
-        response.setHeader(IdempotentContext.TOKEN_DATE, tokenDate == null ? "" :
-                DateUtils.localDateTimeFormat(tokenDate, Constants.DEFAULT_DATE_TIME_FORMAT));
         response.setHeader(IdempotentContext.REQUEST_DATE, requestDate == null ? "" :
                 DateUtils.localDateTimeFormat(requestDate, Constants.DEFAULT_DATE_TIME_FORMAT));
         response.setHeader(IdempotentContext.RESULT_DATE, resultDate == null ? "" :

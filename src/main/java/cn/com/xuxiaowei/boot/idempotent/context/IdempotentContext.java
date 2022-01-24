@@ -29,11 +29,6 @@ public class IdempotentContext implements Serializable {
     public static final String STATUS = "status";
 
     /**
-     * 幂等Token创建时间 放入响应 Header 中的 Name
-     */
-    public static final String TOKEN_DATE = "tokenDate";
-
-    /**
      * 请求时间（首次） 放入响应 Header 中的 Name
      */
     public static final String REQUEST_DATE = "requestDate";
@@ -64,11 +59,6 @@ public class IdempotentContext implements Serializable {
     private StatusEnum status;
 
     /**
-     * 幂等Token创建时间
-     */
-    private LocalDateTime tokenDate;
-
-    /**
      * 请求时间（首次）
      */
     private LocalDateTime requestDate;
@@ -86,7 +76,7 @@ public class IdempotentContext implements Serializable {
     /**
      * 调用次数
      * <p>
-     * 0：已创建，未调用
+     * 0：正在执行
      * 1：调用一次
      * 2：调用两次
      * 3：调用三次
