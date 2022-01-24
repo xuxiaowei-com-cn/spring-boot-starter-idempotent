@@ -1,6 +1,7 @@
 package cn.com.xuxiaowei.boot.idempotent.controller;
 
 import cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,11 +29,19 @@ public class TestIdempotentRestController {
      *
      * @param request  请求
      * @param response 响应
+     * @param millis   延时，毫秒
      * @return 返回 Map
      */
-    @Idempotent(key = "key1", expireTime = 10, expireUnit = TimeUnit.SECONDS, header = "h1")
+    @SneakyThrows
+    @Idempotent(key = "key1", expireTime = 60 * 10, expireUnit = TimeUnit.SECONDS, header = "h1")
     @RequestMapping("/map")
-    public Map<String, Object> map(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> map(HttpServletRequest request, HttpServletResponse response, Long millis) {
+
+        if (millis != null) {
+            // 延时
+            Thread.sleep(millis);
+        }
+
         Map<String, Object> map = new HashMap<>(8);
         map.put("uuid", UUID.randomUUID().toString());
         log.info(String.valueOf(map));

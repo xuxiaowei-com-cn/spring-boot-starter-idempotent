@@ -9,14 +9,9 @@ package cn.com.xuxiaowei.boot.idempotent.context;
 public enum StatusEnum {
 
     /**
-     * 未创建
+     * 执行前
      */
-    NOT_CREATE,
-
-    /**
-     * 创建
-     */
-    CREATE,
+    BEFORE_EXECUTE,
 
     /**
      * 正在执行
@@ -24,19 +19,9 @@ public enum StatusEnum {
     EXECUTE,
 
     /**
-     * 正常
+     * 执行后
      */
-    NORMAL,
-
-    /**
-     * 重复执行
-     */
-    REPEAT,
-
-    /**
-     * 过期
-     */
-    EXPIRE,
+    AFTER_EXECUTE,
 
     /**
      * 中断

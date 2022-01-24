@@ -77,6 +77,8 @@ public @interface Idempotent {
 
     /**
      * 幂等放入Redis中的键值
+     * <p>
+     * 每个接口必须不同
      *
      * @return 幂等放入Redis中的键值
      */
