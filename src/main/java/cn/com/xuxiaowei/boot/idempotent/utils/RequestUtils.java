@@ -2,9 +2,11 @@ package cn.com.xuxiaowei.boot.idempotent.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 
@@ -67,6 +69,20 @@ public class RequestUtils {
             inputStream.read(bytes);
             return new String(bytes, characterEncoding);
         }
+    }
+
+    /**
+     * 请求参数流
+     *
+     * @param request 请求
+     * @return 返回 请求参数流
+     * @throws IOException 读取流异常
+     * @see HttpServletRequest#getContentLength()  无需关注是否为负数
+     */
+    public static String copyInputStream(HttpServletRequest request) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        IOUtils.copy(request.getInputStream(), byteArrayOutputStream);
+        return byteArrayOutputStream.toString();
     }
 
     /**
