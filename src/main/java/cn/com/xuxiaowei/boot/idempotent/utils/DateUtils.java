@@ -1,4 +1,4 @@
-package cn.com.xuxiaowei.boot.idempotent.util;
+package cn.com.xuxiaowei.boot.idempotent.utils;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
