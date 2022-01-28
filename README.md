@@ -13,11 +13,11 @@
   </a>
 
   <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
-    <img alt="GitHub" src="https://img.shields.io/github/stars/xuxiaowei-com-cn/spring-boot-starter-idempotent?logo=github&style=flat">
+    <img alt="GitHub" src="https://img.shields.io/github/stars/xuxiaowei-com-cn/spring-boot-starter-idempotent?logo=github">
   </a>
 
   <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
-    <img alt="GitHub" src="https://badgen.net/github/forks/xuxiaowei-com-cn/spring-boot-starter-idempotent?icon=github">
+    <img alt="GitHub" src="https://img.shields.io/github/forks/xuxiaowei-com-cn/spring-boot-starter-idempotent?logo=github">
   </a>
 
   <a href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
