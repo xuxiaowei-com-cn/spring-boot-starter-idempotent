@@ -17,6 +17,36 @@
   </a>
 </p>
 
+## 使用
+
+- 由于各大 maven 仓库（如：阿里云）同步非实时同步，推荐在项目中添加下列仓库
+
+```xml
+
+<repositories>
+    <repository>
+        <id>releases</id>
+        <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+    <repository>
+        <id>snapshots</id>
+        <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+```
+
 ## 依赖
 
 - spring-boot-starter-aop
