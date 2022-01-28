@@ -3,13 +3,8 @@
 spring:
   redis:
     host: 127.0.0.1
-    database: 6
+    database: 0
     password:
-    jedis:
-      # 连接池
-      pool:
-        # 最小连接池
-        min-idle: 2
 #
 # 配置
 xxw:
