@@ -17,7 +17,7 @@
   </a>
 
   <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
-    <img alt="GitHub" src="https://img.shields.io/github/forks/xuxiaowei-com-cn/spring-boot-starter-idempotent?logo=github">
+    <img alt="GitHub forks" src="https://img.shields.io/github/forks/xuxiaowei-com-cn/spring-boot-starter-idempotent?logo=github">
   </a>
 
   <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
@@ -29,7 +29,7 @@
   </a>
 
   <a href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
-    <img alt="码云Gitee" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/badge/fork.svg?theme=blue">
+    <img alt="码云Gitee forks" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/badge/fork.svg?theme=blue">
   </a>
 
   <a href="https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
@@ -37,7 +37,7 @@
   </a>
 
   <a href="https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
-    <img alt="Gitlab" src="https://badgen.net/gitlab/forks/xuxiaowei-com-cn/spring-boot-starter-idempotent?icon=gitlab">
+    <img alt="Gitlab forks" src="https://badgen.net/gitlab/forks/xuxiaowei-com-cn/spring-boot-starter-idempotent?icon=gitlab">
   </a>
 
   <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
