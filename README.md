@@ -41,7 +41,7 @@
   </a>
 
   <a href="./pom.xml">
-    <img alt="Spring Boot" src="https://raster.shields.io/badge/spring boot-2.3.8.RELEASE+-red.svg">
+    <img alt="Spring Boot" src="https://img.shields.io/badge/Spring Boot-2.3.8.RELEASE-blue">
   </a>
 
   <a href="https://www.apache.org/licenses/LICENSE-2.0">
