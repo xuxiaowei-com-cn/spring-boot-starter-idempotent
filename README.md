@@ -20,11 +20,11 @@
     <img alt="GitHub" src="https://badgen.net/github/forks/xuxiaowei-com-cn/spring-boot-starter-idempotent?icon=github">
   </a>
 
-  <a href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/star">
+  <a href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
     <img alt="码云Gitee" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/badge/star.svg?theme=blue">
   </a>
 
-  <a href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/fork_project_info">
+  <a href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
     <img alt="码云Gitee" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/badge/fork.svg?theme=blue">
   </a>
 
