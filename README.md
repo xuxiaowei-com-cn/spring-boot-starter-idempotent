@@ -55,6 +55,18 @@
 
 ## 使用
 
+- [幂等使用示例 idempotent-example](https://gitee.com/xuxiaowei-com-cn/idempotent-example)
+
+```xml
+<!-- https://search.maven.org/artifact/cn.com.xuxiaowei.boot/spring-boot-starter-idempotent -->
+<!-- https://mvnrepository.com/artifact/cn.com.xuxiaowei.boot/spring-boot-starter-idempotent -->
+<dependency>
+    <groupId>cn.com.xuxiaowei.boot</groupId>
+    <artifactId>spring-boot-starter-idempotent</artifactId>
+    <version>最新版</version>
+</dependency>
+```
+
 - 由于各大 maven 仓库（如：阿里云）非实时同步，推荐在项目 `pom.xml` 中添加下列仓库
 
 ```xml
