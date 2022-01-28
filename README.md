@@ -13,7 +13,7 @@
   </a>
 
   <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
-    <img alt="GitHub" src="https://img.shields.io/github/stars/xuxiaowei-com-cn/spring-boot-starter-idempotent?logo=github">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/xuxiaowei-com-cn/spring-boot-starter-idempotent?logo=github">
   </a>
 
   <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
@@ -25,7 +25,7 @@
   </a>
 
   <a href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
-    <img alt="码云Gitee" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/badge/star.svg?theme=blue">
+    <img alt="码云Gitee stars" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/badge/star.svg?theme=blue">
   </a>
 
   <a href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
@@ -33,7 +33,7 @@
   </a>
 
   <a href="https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
-    <img alt="Gitlab" src="https://badgen.net/gitlab/stars/xuxiaowei-com-cn/spring-boot-starter-idempotent?icon=gitlab">
+    <img alt="Gitlab stars" src="https://badgen.net/gitlab/stars/xuxiaowei-com-cn/spring-boot-starter-idempotent?icon=gitlab">
   </a>
 
   <a href="https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
