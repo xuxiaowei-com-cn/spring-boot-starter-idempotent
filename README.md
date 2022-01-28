@@ -20,6 +20,10 @@
     <img alt="码云Gitee" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/badge/star.svg?theme=blue">
   </a>
 
+  <a href="https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
+    <img alt="Gitlab" src="https://badgen.net/gitlab/stars/xuxiaowei-com-cn/spring-boot-starter-idempotent?icon=gitlab">
+  </a>
+
   <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
     <img alt="total lines" src="https://tokei.rs/b1/github/xuxiaowei-com-cn/spring-boot-starter-idempotent">
   </a>
