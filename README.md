@@ -24,6 +24,10 @@
     <img alt="total lines" src="https://tokei.rs/b1/github/xuxiaowei-com-cn/spring-boot-starter-idempotent">
   </a>
 
+  <a href="./pom.xml">
+    <img alt="Spring Boot" src="https://raster.shields.io/badge/spring boot-2.3.8.RELEASE+-red.svg">
+  </a>
+
   <a href="https://www.apache.org/licenses/LICENSE-2.0">
     <img alt="code style" src="https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square">
   </a>
