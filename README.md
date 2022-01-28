@@ -12,6 +12,14 @@
     <img alt="maven" src="https://img.shields.io/maven-central/v/cn.com.xuxiaowei.boot/spring-boot-starter-idempotent.svg?style=flat-square">
   </a>
 
+  <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
+    <img alt="GitHub" src="https://img.shields.io/github/stars/xuxiaowei-com-cn/spring-boot-starter-idempotent?logo=github&style=flat">
+  </a>
+
+  <a href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
+    <img alt="码云Gitee" src="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/badge/star.svg?theme=blue">
+  </a>
+
   <a href="https://www.apache.org/licenses/LICENSE-2.0">
     <img alt="code style" src="https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square">
   </a>
