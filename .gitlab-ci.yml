@@ -9,7 +9,7 @@ pages:
   - echo '发布'
   artifacts:
     paths:
-    - .
+    - index.html
   only:
   - main
 
