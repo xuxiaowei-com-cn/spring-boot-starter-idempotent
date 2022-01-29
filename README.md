@@ -61,11 +61,11 @@
     <img alt="total lines" src="https://tokei.rs/b1/github/xuxiaowei-com-cn/spring-boot-starter-idempotent">
   </a>
 
-  <a href="./pom.xml">
+  <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/main/pom.xml">
     <img alt="Spring Boot" src="https://img.shields.io/static/v1?logo=Spring Boot&message=2.3.8.RELEASE">
   </a>
 
-  <a href="./pom.xml">
+  <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/main/pom.xml">
     <img alt="Spring Boot Redis" src="https://img.shields.io/static/v1?logo=Redis&message=2.3.8.RELEASE">
   </a>
 
@@ -89,7 +89,7 @@
 - 支持自定义幂等过期时间（`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#expireTime()`）
 - 支持自定义幂等过期时间单位（`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#expireUnit()`）
 - 支持自定义接口超时时直接响应空结果（响应header中响应调用记录）与自定义响应结果
-    - [TimeoutExceptionService](./src/main/java/cn/com/xuxiaowei/boot/idempotent/service/TimeoutExceptionService.java)
+    - [TimeoutExceptionService](https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/main/src/main/java/cn/com/xuxiaowei/boot/idempotent/service/TimeoutExceptionService.java)
 - 支持严格模式（未找到Token时抛出异常，使用`@org.springframework.web.bind.annotation.ControllerAdvice`统一拦截异常进行处理）
 - 支持将调用记录放入响应header中
 
