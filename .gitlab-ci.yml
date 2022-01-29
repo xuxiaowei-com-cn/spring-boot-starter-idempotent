@@ -2,7 +2,7 @@ stages:
   - pages
   - tr-deploy
 
-image: alpine:latest
+image: centos:centos8.4.2105
 
 pages:
   stage: pages
