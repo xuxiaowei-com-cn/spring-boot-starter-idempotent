@@ -8,7 +8,7 @@ tr-deploy:
   stage: tr-deploy
   script:
     - git --version
-    - NAME=`mvn -e -U help:evaluate -Dexpression=project.name -q -DforceStdout`
+    - NAME=`mvn help:evaluate -Dexpression=project.name -q -DforceStdout`
     - VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`
     - PACKAGING=`mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout`
     - echo 名称：$NAME
