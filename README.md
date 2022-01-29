@@ -66,7 +66,7 @@
   </a>
 
   <a href="https://www.apache.org/licenses/LICENSE-2.0">
-    <img alt="code style" src="https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square">
+    <img alt="code style" src="https://img.shields.io/static/v1?logo=Apache&message=Apache 2">
   </a>
 </p>
 
