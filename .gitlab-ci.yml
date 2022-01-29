@@ -7,7 +7,11 @@ image: alpine:latest
 pages:
   stage: deploy
   script:
-    - echo '发布'
+    - mkdir public
+    - mv .nojekyll ./public
+    - mv CNAME ./public
+    - mv favicon.ico ./public
+    - mv index.html ./public
   artifacts:
     paths:
       - public
