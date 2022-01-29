@@ -88,7 +88,8 @@
 - 支持自定义接口幂等Token名称
 - 支持自定义幂等过期时间（`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#expireTime()`）
 - 支持自定义幂等过期时间单位（`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#expireUnit()`）
-- 支持自定义接口超时时直接响应空结果（响应header中响应调用记录）
+- 支持自定义接口超时时直接响应空结果（响应header中响应调用记录）与自定义响应结果
+    - [TimeoutExceptionService](./src/main/java/cn/com/xuxiaowei/boot/idempotent/service/TimeoutExceptionService.java)
 - 支持严格模式（未找到Token时抛出异常，使用`@org.springframework.web.bind.annotation.ControllerAdvice`统一拦截异常进行处理）
 - 支持将调用记录放入响应header中
 

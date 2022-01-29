@@ -8,6 +8,7 @@ import cn.com.xuxiaowei.boot.idempotent.exception.NotExistentTokenException;
 import cn.com.xuxiaowei.boot.idempotent.exception.NotExistentTokenNameException;
 import cn.com.xuxiaowei.boot.idempotent.exception.ServletRequestException;
 import cn.com.xuxiaowei.boot.idempotent.properties.IdempotentProperties;
+import cn.com.xuxiaowei.boot.idempotent.service.TimeoutExceptionService;
 import cn.com.xuxiaowei.boot.idempotent.utils.Constants;
 import cn.com.xuxiaowei.boot.idempotent.utils.DateUtils;
 import cn.com.xuxiaowei.boot.idempotent.utils.RequestUtils;
@@ -24,6 +25,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.TimeoutUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -63,6 +65,8 @@ public class IdempotentAspect {
      */
     private IdempotentProperties idempotentProperties;
 
+    private TimeoutExceptionService timeoutExceptionService;
+
     @Autowired
     public void setObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -76,6 +80,16 @@ public class IdempotentAspect {
     @Autowired
     public void setIdempotentProperties(IdempotentProperties idempotentProperties) {
         this.idempotentProperties = idempotentProperties;
+    }
+
+    /**
+     * {@link TimeoutExceptionService} 对应的 {@link Service} 存在时才进行注入
+     *
+     * @param timeoutExceptionService 幂等超时接口
+     */
+    @Autowired(required = false)
+    public void setTimeoutExceptionService(TimeoutExceptionService timeoutExceptionService) {
+        this.timeoutExceptionService = timeoutExceptionService;
     }
 
     /**
@@ -138,15 +152,15 @@ public class IdempotentAspect {
 
                 if (StringUtils.hasText(headerValue)) {
                     // 根据请求头中的TokenValue获取Redis中缓存的结果
-                    return getProceed(response, idempotent, joinPoint, headerValue);
+                    return getProceed(request, response, idempotent, joinPoint, headerValue);
                 } else if (StringUtils.hasText(paramValue)) {
                     // 根据参数中的TokenValue获取Redis中缓存的结果
-                    return getProceed(response, idempotent, joinPoint, paramValue);
+                    return getProceed(request, response, idempotent, joinPoint, paramValue);
                 } else {
                     String streamValue = RequestUtils.getInputStreamNode(request, stream);
                     if (StringUtils.hasText(streamValue)) {
                         // 根据请求流中的TokenValue获取Redis中缓存的结果
-                        return getProceed(response, idempotent, joinPoint, streamValue);
+                        return getProceed(request, response, idempotent, joinPoint, streamValue);
                     }
 
                     // 不存在 Token
@@ -179,6 +193,7 @@ public class IdempotentAspect {
     /**
      * 获取 Redis 中的缓存结果
      *
+     * @param request    Http 请求
      * @param response   Http 响应
      * @param idempotent 幂等
      * @param joinPoint  切面方法信息
@@ -186,8 +201,8 @@ public class IdempotentAspect {
      * @return 返回 Redis 中的缓存结果
      * @throws Throwable 执行异常
      */
-    private Object getProceed(HttpServletResponse response, Idempotent idempotent, ProceedingJoinPoint joinPoint,
-                              String tokenValue) throws Throwable {
+    private Object getProceed(HttpServletRequest request, HttpServletResponse response, Idempotent idempotent,
+                              ProceedingJoinPoint joinPoint, String tokenValue) throws Throwable {
         String prefix = idempotentProperties.getPrefix();
         String result = idempotentProperties.getResult();
         String record = idempotentProperties.getRecord();
@@ -253,7 +268,7 @@ public class IdempotentAspect {
 
                 // 返回执行结果
                 return ruture(joinPoint, redisResultKey, idempotent,
-                        idempotentContext, redisRecordKey, response);
+                        idempotentContext, redisRecordKey, request, response);
             }
 
         } else {
@@ -279,10 +294,18 @@ public class IdempotentAspect {
      * <p>
      * 终止超时线程：<code>future.cancel(true);</code>
      *
+     * @param joinPoint         切点
+     * @param redisResultKey    调用结果 Key
+     * @param idempotent        幂等注解
+     * @param idempotentContext 幂等调用记录
+     * @param redisRecordKey    调用记录 Key
+     * @param request           请求
+     * @param response          响应
      * @return 返回 执行结果
      */
     private Object ruture(ProceedingJoinPoint joinPoint, String redisResultKey, Idempotent idempotent,
-                          IdempotentContext idempotentContext, String redisRecordKey, HttpServletResponse response) {
+                          IdempotentContext idempotentContext, String redisRecordKey,
+                          HttpServletRequest request, HttpServletResponse response) {
 
         Future<Object> future = EXECUTOR_SERVICE.submit(() -> {
 
@@ -340,7 +363,12 @@ public class IdempotentAspect {
             // 设置调用状态
             idempotentContext.setStatus(StatusEnum.EXECUTE);
 
-            proceed = null;
+            if (timeoutExceptionService == null) {
+                proceed = null;
+            } else {
+                // 自定义幂等调用超时返回的数据
+                proceed = timeoutExceptionService.timeout(request, response, joinPoint);
+            }
         }
 
         // 幂等调用记录放入Redis
