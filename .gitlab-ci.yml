@@ -1,4 +1,5 @@
 stages:
+  - deploy
   - tr-deploy
 
 image: alpine:latest
