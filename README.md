@@ -21,7 +21,7 @@
   </a>
 
   <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
-    <img alt="GitHub" src="https://img.shields.io/github/watchers/xuxiaowei-com-cn/spring-boot-starter-idempotent?logo=github">
+    <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/xuxiaowei-com-cn/spring-boot-starter-idempotent?logo=github">
   </a>
 
   <a href="https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
