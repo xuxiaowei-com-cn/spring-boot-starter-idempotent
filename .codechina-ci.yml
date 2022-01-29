@@ -3,9 +3,12 @@
 pages:
   stage: deploy
   script:
-    - mkdir .public
-    - cp -r * .public
-    - mv .public public
+    - mkdir public
+    - mv README.md ./public
+    - mv .nojekyll ./public
+    - mv CNAME ./public
+    - mv favicon.ico ./public
+    - mv index.html ./public
   artifacts:
     paths:
       - public
