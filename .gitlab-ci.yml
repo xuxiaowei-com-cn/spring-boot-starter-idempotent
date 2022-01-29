@@ -9,6 +9,7 @@ pages:
   script:
   - echo '发布'
   artifacts:
+    name: public
     paths:
     - index.html
   only:
