@@ -1,11 +1,11 @@
 stages:
-  - deploy
+  - pages
   - tr-deploy
 
 image: alpine:latest
 
 pages:
-  stage: deploy
+  stage: pages
   script:
     - mkdir public
     - mv README.md ./public
