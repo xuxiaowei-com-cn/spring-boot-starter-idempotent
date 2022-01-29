@@ -1,6 +1,18 @@
 stages:
   - tr-deploy
 
+image: alpine:latest
+
+pages:
+  stage: deploy
+  script:
+  - echo '发布'
+  artifacts:
+    paths:
+    - .
+  only:
+  - main
+
 #
 # tr-deploy
 #
