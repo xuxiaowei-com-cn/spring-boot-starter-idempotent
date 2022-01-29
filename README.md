@@ -74,7 +74,23 @@
   </a>
 </p>
 
-## 使用
+## 功能说明
+
+- 支持一键代码开启全局幂等配置（`cn.com.xuxiaowei.boot.idempotent.annotation.EnableIdempotent`）
+- 支持一键开启多次获取请求流（`xxw.idempotent.input-stream-filter: true`）
+- 支持自定义全局接口幂等放入Redis中的key值前缀（`prefix`）
+- 支持自定义全局接口幂等调用`记录`放入Redis中的key值前缀（`xxw.idempotent.record`）
+- 支持自定义全局接口幂等调用`结果`放入Redis中的key值前缀（`xxw.idempotent.result`）
+- 支持自定义接口幂等放入Redis中的key值（`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#key()`）
+- 支持自定义接口幂等Token从header中获取（第一优先级`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#header()`）
+- 支持自定义接口幂等Token从param中获取（第二优先级`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#param()`）
+- 支持自定义接口幂等Token从stream中获取（第三优先级`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#stream()`，需要开启多次获取请求流配置）
+- 支持自定义接口幂等Token名称
+- 支持自定义幂等过期时间（`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#expireTime()`）
+- 支持自定义幂等过期时间单位（`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#expireUnit()`）
+- 支持严格模式（未找到Token时抛出异常，使用`@org.springframework.web.bind.annotation.ControllerAdvice`统一拦截异常进行处理）
+
+## 使用示例
 
 - [幂等使用示例 idempotent-example](https://gitee.com/xuxiaowei-com-cn/idempotent-example)
 
