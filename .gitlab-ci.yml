@@ -39,7 +39,7 @@ deploy:
     - gpg --import $GPG_FILE
     - SETTINGS_FILE=`find / -name settings.xml`
     - echo $SETTINGS_FILE
-    - cat $SETTINGS_FILE
+    - sed -i "s#</servers>#<server><id>ossrh</id><username>$ossrh_user</username><password>$ossrh_pass</password></server>&#" $SETTINGS_FILE
     - git --version
     - NAME=`mvn help:evaluate -Dexpression=project.name -q -DforceStdout`
     - VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`
