@@ -24,6 +24,7 @@ pages:
 #
 deploy:
   stage: deploy
+  image: maven:3.6.3-jdk-8
   script:
     - git --version
     - NAME=`mvn help:evaluate -Dexpression=project.name -q -DforceStdout`
