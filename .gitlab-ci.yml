@@ -37,6 +37,9 @@ deploy:
     - GPG_FILE=`find / -name xuxiaowei_0x97A36125_SECRET`
     - echo $GPG_FILE
     - gpg --import $GPG_FILE
+    - SETTINGS_FILE=`find / -name settings.xml`
+    - echo $SETTINGS_FILE
+    - cat $SETTINGS_FILE
     - git --version
     - NAME=`mvn help:evaluate -Dexpression=project.name -q -DforceStdout`
     - VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`
