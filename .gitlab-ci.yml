@@ -1,11 +1,11 @@
 stages:
+  - pages
   - deploy
-  - tr-deploy
 
-image: alpine:latest
+image: centos:centos8.4.2105
 
 pages:
-  stage: deploy
+  stage: pages
   script:
     - mkdir public
     - mv README.md ./public
@@ -20,10 +20,10 @@ pages:
   - pages
 
 #
-# tr-deploy
+# deploy
 #
-tr-deploy:
-  stage: tr-deploy
+deploy:
+  stage: deploy
   script:
     - git --version
     - NAME=`mvn help:evaluate -Dexpression=project.name -q -DforceStdout`
@@ -37,7 +37,5 @@ tr-deploy:
     - echo 主分支：$CI_DEFAULT_BRANCH
     - echo 项目路径：$CI_PROJECT_DIR
     - mvn clean -U package source:jar javadoc:jar deploy -DskipTests && echo 发布完成
-  tags:
-    - tr-deploy
   only:
-    - tr-deploy
+    - deploy
