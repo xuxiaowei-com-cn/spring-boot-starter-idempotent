@@ -17,7 +17,7 @@ pages:
     paths:
       - public
   only:
-  - pages
+    - pages
 
 #
 # deploy
