@@ -1,6 +1,12 @@
 <div align="center">
     <h1>spring-boot-starter-idempotent</h1>
     <h3>一个基于 Spring Boot Redis 的 幂等</h3>
+    <a href="https://github.com/996icu/996.ICU/blob/master/LICENSE">
+        <img alt="License-Anti" src="https://img.shields.io/badge/License-Anti 996-blue.svg">
+    </a>
+    <a href="https://996.icu/#/zh_CN">
+        <img alt="Link-996" src="https://img.shields.io/badge/Link-996.icu-red.svg">
+    </a>
 </div>
 
 <p align="center">
