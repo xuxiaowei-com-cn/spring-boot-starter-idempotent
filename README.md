@@ -1,6 +1,12 @@
 <div align="center">
     <h1>spring-boot-starter-idempotent</h1>
     <h3>一个基于 Spring Boot Redis 的 幂等</h3>
+    <a href="https://github.com/996icu/996.ICU/blob/master/LICENSE">
+        <img alt="License-Anti" src="https://img.shields.io/badge/License-Anti 996-blue.svg">
+    </a>
+    <a href="https://996.icu/#/zh_CN">
+        <img alt="Link-996" src="https://img.shields.io/badge/Link-996.icu-red.svg">
+    </a>
 </div>
 
 <p align="center">
@@ -70,7 +76,7 @@
   </a>
 
   <a href="https://www.apache.org/licenses/LICENSE-2.0">
-    <img alt="code style" src="https://img.shields.io/static/v1?logo=Apache&message=Apache 2">
+    <img alt="code style" src="https://img.shields.io/badge/license-Apache 2-blue">
   </a>
 </p>
 
@@ -146,3 +152,7 @@
 - spring-boot-configuration-processor
 
 - lombok
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/xuxiaowei-com-cn/spring-boot-starter-idempotent.svg)](https://starchart.cc/xuxiaowei-com-cn/spring-boot-starter-idempotent)
