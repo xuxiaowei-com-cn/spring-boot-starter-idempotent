@@ -146,3 +146,7 @@
 - spring-boot-configuration-processor
 
 - lombok
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/xuxiaowei-com-cn/spring-boot-starter-idempotent.svg)](https://starchart.cc/xuxiaowei-com-cn/spring-boot-starter-idempotent)
