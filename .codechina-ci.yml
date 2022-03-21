@@ -1,7 +1,19 @@
-# This file is a template, and might need editing before it works on your project.
-# Full project: https://gitlab.com/pages/plain-html
+stages:
+  - pages
+  - deploy
+
+variables:
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+
+cache:
+  paths:
+    - .m2/repository
+
+image: centos:centos8.4.2105
+
 pages:
-  stage: deploy
+  stage: pages
   script:
     - mkdir public
     - mv README.md ./public
@@ -13,4 +25,36 @@ pages:
     paths:
       - public
   only:
-    - main
+    - pages
+
+#
+# deploy
+#
+deploy:
+  stage: deploy
+  image: maven:3.6.3-jdk-8
+  script:
+    - GPG_FILE=/builds/xuxiaowei-com-cn/spring-boot-starter-idempotent.tmp/xuxiaowei_0x97A36125_SECRET
+    - echo $GPG_FILE
+    - gpg --import $GPG_FILE
+    - SETTINGS_FILE=/usr/share/maven/conf/settings.xml
+    - echo $SETTINGS_FILE
+    - sed -i "s#</servers>#<server><id>ossrh</id><username>$ossrh_user</username><password>$ossrh_pass</password></server>&#" $SETTINGS_FILE
+    - sed -i "s#</mirrors>#<mirror><id>mirror</id><mirrorOf>central,jcenter,!rdc-releases,!rdc-snapshots</mirrorOf><name>mirror</name><url>https://maven.aliyun.com/nexus/content/groups/public</url></mirror>&#" $SETTINGS_FILE
+    - git --version
+    - NAME=`mvn help:evaluate -Dexpression=project.name -q -DforceStdout`
+    - VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`
+    - PACKAGING=`mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout`
+    - echo 名称：$NAME
+    - echo 版本：$VERSION
+    - echo 包：$PACKAGING
+    - echo 常量网址：https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+    - echo 当前分支：$CI_COMMIT_BRANCH
+    - echo 主分支：$CI_DEFAULT_BRANCH
+    - echo 项目路径：$CI_PROJECT_DIR
+    - mvn clean -U package source:jar javadoc:jar deploy -DskipTests && echo 发布完成
+  artifacts:
+    paths:
+      - target/spring-boot-starter-idempotent-*
+  only:
+    - deploy
