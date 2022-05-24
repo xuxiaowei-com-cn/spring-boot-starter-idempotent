@@ -68,6 +68,10 @@
   </a>
 
   <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
+    <img alt="OSCS Status" src="https://www.oscs1024.com/platform/badge/xuxiaowei-com-cn/spring-boot-starter-idempotent.svg?size=small">
+  </a>
+
+  <a href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
     <img alt="total lines" src="https://tokei.rs/b1/github/xuxiaowei-com-cn/spring-boot-starter-idempotent">
   </a>
 
