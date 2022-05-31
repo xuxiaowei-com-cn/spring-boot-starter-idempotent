@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div align="center" style="text-align: center;">
     <h1>spring-boot-starter-idempotent</h1>
     <h3>一个基于 Spring Boot Redis 的 幂等</h3>
     <a href="https://github.com/996icu/996.ICU/blob/master/LICENSE">
@@ -9,11 +9,11 @@
     </a>
 </div>
 
-<p style="text-align: center;">
+<p align="center" style="text-align: center;">
   为简化开发工作、提高生产率而生
 </p>
 
-<p style="text-align: center;">
+<p align="center" style="text-align: center;">
 
   <a href="https://blog.csdn.net/qq_32596527">
     <img alt="CSDN 码龄" src="https://img.shields.io/badge/dynamic/xml?color=orange&label=CSDN&query=%2F%2Fdiv%5B%40class%3D%27person-code-age%27%5D%5B1%5D%2Fspan%5B1%5D%2Ftext%28%29%5B1%5D&url=https%3A%2F%2Fblog.csdn.net%2Fqq_32596527">
