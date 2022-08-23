@@ -76,11 +76,11 @@
   </a>
 
   <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/main/pom.xml">
-    <img alt="Spring Boot" src="https://img.shields.io/static/v1?logo=Spring Boot&message=2.6.0">
+    <img alt="Spring Boot" src="https://img.shields.io/static/v1?logo=Spring Boot&message=2.7.0">
   </a>
 
   <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/main/pom.xml">
-    <img alt="Spring Boot Redis" src="https://img.shields.io/static/v1?logo=Redis&message=2.6.0">
+    <img alt="Spring Boot Redis" src="https://img.shields.io/static/v1?logo=Redis&message=2.7.0">
   </a>
 
   <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0">
