@@ -8,19 +8,19 @@ package cn.com.xuxiaowei.boot.idempotent.utils;
  */
 public class Constants {
 
-    /**
-     * 日期时间格式
-     */
-    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	/**
+	 * 日期时间格式
+	 */
+	public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    /**
-     * 日期格式
-     */
-    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+	/**
+	 * 日期格式
+	 */
+	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
 
-    /**
-     * 时间格式
-     */
-    public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
+	/**
+	 * 时间格式
+	 */
+	public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
 
 }

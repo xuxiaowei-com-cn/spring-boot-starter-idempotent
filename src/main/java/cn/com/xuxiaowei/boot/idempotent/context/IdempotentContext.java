@@ -16,71 +16,68 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class IdempotentContext implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 幂等 Token 放入响应 Header 中的 Name
-     */
-    public static final String TOKEN = "token";
+	/**
+	 * 幂等 Token 放入响应 Header 中的 Name
+	 */
+	public static final String TOKEN = "token";
 
-    /**
-     * 幂等状态 放入响应 Header 中的 Name
-     */
-    public static final String STATUS = "status";
+	/**
+	 * 幂等状态 放入响应 Header 中的 Name
+	 */
+	public static final String STATUS = "status";
 
-    /**
-     * 请求时间（首次） 放入响应 Header 中的 Name
-     */
-    public static final String REQUEST_DATE = "requestDate";
+	/**
+	 * 请求时间（首次） 放入响应 Header 中的 Name
+	 */
+	public static final String REQUEST_DATE = "requestDate";
 
-    /**
-     * 执行结果时间（首次） 放入响应 Header 中的 Name
-     */
-    public static final String RESULT_DATE = "resultDate";
+	/**
+	 * 执行结果时间（首次） 放入响应 Header 中的 Name
+	 */
+	public static final String RESULT_DATE = "resultDate";
 
-    /**
-     * 过期时间 放入响应 Header 中的 Name
-     */
-    public static final String EXPIRE_DATE = "expireDate";
+	/**
+	 * 过期时间 放入响应 Header 中的 Name
+	 */
+	public static final String EXPIRE_DATE = "expireDate";
 
-    /**
-     * 调用次数 放入响应 Header 中的 Name
-     */
-    public static final String NUMBER = "number";
+	/**
+	 * 调用次数 放入响应 Header 中的 Name
+	 */
+	public static final String NUMBER = "number";
 
-    /**
-     * 幂等 Token
-     */
-    private String token;
+	/**
+	 * 幂等 Token
+	 */
+	private String token;
 
-    /**
-     * 幂等状态
-     */
-    private StatusEnum status;
+	/**
+	 * 幂等状态
+	 */
+	private StatusEnum status;
 
-    /**
-     * 请求时间（首次）
-     */
-    private LocalDateTime requestDate;
+	/**
+	 * 请求时间（首次）
+	 */
+	private LocalDateTime requestDate;
 
-    /**
-     * 执行结果时间（首次）
-     */
-    private LocalDateTime resultDate;
+	/**
+	 * 执行结果时间（首次）
+	 */
+	private LocalDateTime resultDate;
 
-    /**
-     * 过期时间
-     */
-    private LocalDateTime expireDate;
+	/**
+	 * 过期时间
+	 */
+	private LocalDateTime expireDate;
 
-    /**
-     * 调用次数
-     * <p>
-     * 0：正在执行
-     * 1：调用一次
-     * 2：调用两次
-     * 3：调用三次
-     */
-    private Integer number = 0;
+	/**
+	 * 调用次数
+	 * <p>
+	 * 0：正在执行 1：调用一次 2：调用两次 3：调用三次
+	 */
+	private Integer number = 0;
 
 }

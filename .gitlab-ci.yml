@@ -51,7 +51,7 @@ deploy:
     - echo 当前分支：$CI_COMMIT_BRANCH
     - echo 主分支：$CI_DEFAULT_BRANCH
     - echo 项目路径：$CI_PROJECT_DIR
-    - mvn clean -U package source:jar javadoc:jar deploy -DskipTests && echo 发布完成
+    - mvn clean -U package source:jar javadoc:jar deploy -Pgpg -DskipTests && echo 发布完成
   artifacts:
     paths:
       - target/spring-boot-starter-idempotent-*

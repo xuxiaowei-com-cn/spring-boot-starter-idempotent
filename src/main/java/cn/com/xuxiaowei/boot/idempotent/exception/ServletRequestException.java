@@ -8,8 +8,8 @@ package cn.com.xuxiaowei.boot.idempotent.exception;
  */
 public class ServletRequestException extends IdempotentException {
 
-    public ServletRequestException(String message) {
-        super(message);
-    }
+	public ServletRequestException(String message) {
+		super(message);
+	}
 
 }

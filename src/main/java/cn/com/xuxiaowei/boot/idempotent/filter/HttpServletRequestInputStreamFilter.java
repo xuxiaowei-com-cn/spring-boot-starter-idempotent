@@ -19,12 +19,14 @@ import java.io.IOException;
  */
 public class HttpServletRequestInputStreamFilter implements Filter {
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        // 将请求流转换为可多次读取的请求流
-        ServletRequest inputStreamHttpServletRequestWrapper = new InputStreamHttpServletRequestWrapper(httpServletRequest);
-        chain.doFilter(inputStreamHttpServletRequestWrapper, response);
-    }
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+		// 将请求流转换为可多次读取的请求流
+		ServletRequest inputStreamHttpServletRequestWrapper = new InputStreamHttpServletRequestWrapper(
+				httpServletRequest);
+		chain.doFilter(inputStreamHttpServletRequestWrapper, response);
+	}
 
 }

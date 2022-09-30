@@ -26,31 +26,36 @@ import java.time.format.DateTimeFormatter;
 @Configuration
 public class SerializerDeserializerConfiguration {
 
-    /**
-     * 获取支持 JDK 8 序列化与反序列化的 {@link ObjectMapper}
-     *
-     * @return 返回 支持 JDK 8 序列化与反序列化的 {@link ObjectMapper}
-     */
-    @Bean
-    public ObjectMapper objectMapper() {
+	/**
+	 * 获取支持 JDK 8 序列化与反序列化的 {@link ObjectMapper}
+	 * @return 返回 支持 JDK 8 序列化与反序列化的 {@link ObjectMapper}
+	 */
+	@Bean
+	public ObjectMapper objectMapper() {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
+		ObjectMapper objectMapper = new ObjectMapper();
+		JavaTimeModule javaTimeModule = new JavaTimeModule();
 
-        // 添加序列化
-        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_DATE_TIME_FORMAT)));
-        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_DATE_FORMAT)));
-        javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_TIME_FORMAT)));
+		// 添加序列化
+		javaTimeModule.addSerializer(LocalDateTime.class,
+				new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_DATE_TIME_FORMAT)));
+		javaTimeModule.addSerializer(LocalDate.class,
+				new LocalDateSerializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_DATE_FORMAT)));
+		javaTimeModule.addSerializer(LocalTime.class,
+				new LocalTimeSerializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_TIME_FORMAT)));
 
-        // 添加反序列化
-        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_DATE_TIME_FORMAT)));
-        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_DATE_FORMAT)));
-        javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_TIME_FORMAT)));
+		// 添加反序列化
+		javaTimeModule.addDeserializer(LocalDateTime.class,
+				new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_DATE_TIME_FORMAT)));
+		javaTimeModule.addDeserializer(LocalDate.class,
+				new LocalDateDeserializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_DATE_FORMAT)));
+		javaTimeModule.addDeserializer(LocalTime.class,
+				new LocalTimeDeserializer(DateTimeFormatter.ofPattern(Constants.DEFAULT_TIME_FORMAT)));
 
-        // 用于注册可以扩展该映射器提供的功能的模块的方法; 例如，通过添加自定义序列化程序和反序列化程序的提供程序。
-        objectMapper.registerModule(javaTimeModule);
+		// 用于注册可以扩展该映射器提供的功能的模块的方法; 例如，通过添加自定义序列化程序和反序列化程序的提供程序。
+		objectMapper.registerModule(javaTimeModule);
 
-        return objectMapper;
-    }
+		return objectMapper;
+	}
 
 }

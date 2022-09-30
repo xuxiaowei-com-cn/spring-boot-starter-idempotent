@@ -8,12 +8,12 @@ package cn.com.xuxiaowei.boot.idempotent.exception;
  */
 public class IdempotentException extends Exception {
 
-    private IdempotentException() {
-        super();
-    }
+	private IdempotentException() {
+		super();
+	}
 
-    public IdempotentException(String message) {
-        super(message);
-    }
+	public IdempotentException(String message) {
+		super(message);
+	}
 
 }

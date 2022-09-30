@@ -14,18 +14,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FilterConfiguration {
 
-    /**
-     * 请求流转换为多次读取的请求流 过滤器
-     * <p>
-     * 使用配置文件进行条件注解为 {@link Bean}
-     *
-     * @return 返回 请求流转换为多次读取的请求流 过滤器
-     * @see ConditionalOnExpression Spring EL 表达式成立时条件才成立
-     */
-    @Bean
-    @ConditionalOnExpression("${xxw.idempotent.input-stream-filter:false}")
-    public HttpServletRequestInputStreamFilter httpServletRequestInputStreamFilter() {
-        return new HttpServletRequestInputStreamFilter();
-    }
+	/**
+	 * 请求流转换为多次读取的请求流 过滤器
+	 * <p>
+	 * 使用配置文件进行条件注解为 {@link Bean}
+	 * @return 返回 请求流转换为多次读取的请求流 过滤器
+	 * @see ConditionalOnExpression Spring EL 表达式成立时条件才成立
+	 */
+	@Bean
+	@ConditionalOnExpression("${xxw.idempotent.input-stream-filter:false}")
+	public HttpServletRequestInputStreamFilter httpServletRequestInputStreamFilter() {
+		return new HttpServletRequestInputStreamFilter();
+	}
 
 }

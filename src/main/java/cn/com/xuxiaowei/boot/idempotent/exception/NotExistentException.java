@@ -8,8 +8,8 @@ package cn.com.xuxiaowei.boot.idempotent.exception;
  */
 public class NotExistentException extends IdempotentException {
 
-    public NotExistentException(String message) {
-        super(message);
-    }
+	public NotExistentException(String message) {
+		super(message);
+	}
 
 }

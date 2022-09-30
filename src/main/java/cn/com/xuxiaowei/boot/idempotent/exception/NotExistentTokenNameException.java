@@ -8,8 +8,8 @@ package cn.com.xuxiaowei.boot.idempotent.exception;
  */
 public class NotExistentTokenNameException extends IdempotentException {
 
-    public NotExistentTokenNameException(String message) {
-        super(message);
-    }
+	public NotExistentTokenNameException(String message) {
+		super(message);
+	}
 
 }
