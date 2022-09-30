@@ -126,19 +126,19 @@
 
 ## 功能说明
 
-- 支持一键代码开启全局幂等配置（`cn.com.xuxiaowei.boot.idempotent.annotation.EnableIdempotent`）
+- 支持一键代码开启全局幂等配置（`cn.com.xuxiaowei.boot.next.idempotent.annotation.EnableIdempotent`）
 - 支持一键开启多次获取请求流（`xxw.idempotent.input-stream-filter: true`）
 - 支持自定义全局接口幂等放入Redis中的key值前缀（`xxw.idempotent.prefix`）
 - 支持自定义全局接口幂等调用`记录`放入Redis中的key值前缀（`xxw.idempotent.record`）
 - 支持自定义全局接口幂等调用`结果`放入Redis中的key值前缀（`xxw.idempotent.result`）
-- 支持自定义接口幂等放入Redis中的key值（`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#key()`）
-- 支持自定义接口幂等Token从header中获取（第一优先级`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#header()`）
-- 支持自定义接口幂等Token从param中获取（第二优先级`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#param()`）
-- 支持自定义接口幂等Token从stream中获取（第三优先级`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#stream()`
+- 支持自定义接口幂等放入Redis中的key值（`cn.com.xuxiaowei.boot.next.idempotent.annotation.Idempotent#key()`）
+- 支持自定义接口幂等Token从header中获取（第一优先级`cn.com.xuxiaowei.boot.next.idempotent.annotation.Idempotent#header()`）
+- 支持自定义接口幂等Token从param中获取（第二优先级`cn.com.xuxiaowei.boot.next.idempotent.annotation.Idempotent#param()`）
+- 支持自定义接口幂等Token从stream中获取（第三优先级`cn.com.xuxiaowei.boot.next.idempotent.annotation.Idempotent#stream()`
   ，需要开启多次获取请求流配置）
 - 支持自定义接口幂等Token名称
-- 支持自定义幂等过期时间（`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#expireTime()`）
-- 支持自定义幂等过期时间单位（`cn.com.xuxiaowei.boot.idempotent.annotation.Idempotent#expireUnit()`）
+- 支持自定义幂等过期时间（`cn.com.xuxiaowei.boot.next.idempotent.annotation.Idempotent#expireTime()`）
+- 支持自定义幂等过期时间单位（`cn.com.xuxiaowei.boot.next.idempotent.annotation.Idempotent#expireUnit()`）
 - 支持自定义接口超时时直接响应空结果（响应header中响应调用记录）与自定义响应结果
     - [TimeoutExceptionService](https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/main/src/main/java/cn/com/xuxiaowei/boot/idempotent/service/TimeoutExceptionService.java)
 - 支持严格模式（未找到Token时抛出异常，使用`@org.springframework.web.bind.annotation.ControllerAdvice`统一拦截异常进行处理）
@@ -149,10 +149,10 @@
 - [幂等使用示例 idempotent-example](https://gitee.com/xuxiaowei-com-cn/idempotent-example)
 
 ```xml
-<!-- https://search.maven.org/artifact/cn.com.xuxiaowei.boot/spring-boot-starter-idempotent -->
-<!-- https://mvnrepository.com/artifact/cn.com.xuxiaowei.boot/spring-boot-starter-idempotent -->
+<!-- https://search.maven.org/artifact/cn.com.xuxiaowei.boot.next/spring-boot-starter-idempotent -->
+<!-- https://mvnrepository.com/artifact/cn.com.xuxiaowei.boot.next/spring-boot-starter-idempotent -->
 <dependency>
-    <groupId>cn.com.xuxiaowei.boot</groupId>
+    <groupId>cn.com.xuxiaowei.boot.next</groupId>
     <artifactId>spring-boot-starter-idempotent</artifactId>
     <version>最新版</version>
 </dependency>

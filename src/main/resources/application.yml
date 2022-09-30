@@ -35,4 +35,4 @@ xxw:
 logging:
   level:
     web: debug
-    cn.com.xuxiaowei.boot.idempotent: debug
+    cn.com.xuxiaowei.boot.next.idempotent: debug
