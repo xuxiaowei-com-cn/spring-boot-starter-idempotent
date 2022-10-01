@@ -1,6 +1,6 @@
 stages:
   - pages
-  - deploy
+  - main
 
 variables:
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
@@ -27,11 +27,8 @@ pages:
   only:
     - pages
 
-#
-# deploy
-#
-deploy:
-  stage: deploy
+main:
+  stage: main
   image: maven:3.6.3-jdk-8
   script:
     - GPG_FILE=/builds/xuxiaowei-com-cn/spring-boot-starter-idempotent.tmp/xuxiaowei_0x97A36125_SECRET
@@ -52,9 +49,10 @@ deploy:
     - echo 当前分支：$CI_COMMIT_BRANCH
     - echo 主分支：$CI_DEFAULT_BRANCH
     - echo 项目路径：$CI_PROJECT_DIR
-    - mvn clean -U package source:jar javadoc:jar deploy -DskipTests && echo 发布完成
+    - mvn clean -U package source:jar javadoc:jar deploy -Pgpg -DskipTests && echo 发布完成
   artifacts:
     paths:
       - target/spring-boot-starter-idempotent-*
-  only:
-    - deploy
+  rules:
+    # 仅用于发布非标签版本（一般为快照版）
+    - if: $CI_COMMIT_TAG == null

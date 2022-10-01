@@ -120,6 +120,11 @@
 - next
     - 支持 JDK 17
 
+## 发布
+
+- 由于流水线时间等问题，快照版发布流水线在[gitcode](https://gitcode.net/xuxiaowei-com-cn/spring-boot-starter-idempotent)
+  ，正式版发布流水线在[gitlab](https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-idempotent)
+
 ## [更新日志](CHANGELOG.md)
 
 ## [代码格式规范 spring-javaformat](https://github.com/spring-io/spring-javaformat)
