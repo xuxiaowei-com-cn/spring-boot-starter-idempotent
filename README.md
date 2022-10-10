@@ -48,12 +48,12 @@
     <img alt="IntelliJ IDEA" src="https://img.shields.io/static/v1?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAAAAAByaaZbAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfmBRkBICRBfW8eAAABPklEQVRIx+2UTStEYRiGr/kqZWaKMoyQUsoCWdn4AZKPlZSF5fgPVhYWStlZqPkB7GynWSg/QCmhUFOUGCPNZBrlnNtijmneOYZzykrn2p2e536f577P2wsBPvmQlACQg13Mr4b9CCTpuMunQIdGT8gQRCBZAQRPu0B6aRjsvqKXCRcAJO8lTTf3/GQJKF8Bz5481CfMvEnnxtrRduKhPET7R6GWka+UrBW//8Hej3haqZQFYgNz8VDmYbNNT8iSFDdMM1iSyh3uWHsAesNgVc1D7k4hMeISrN0uAOtAwTYF6Smg2UQUYDYbO8qdjS0Cua9CahsgPd8NleuW3WOFRiTV+nTj8mnL5XbixinVlnEJ7L1vkuzcuJT0ejDufL98UTjZmWyJsqFJvT9aBAT8J5zrrXYFF788xn8gCPDCJ2cr3I1zqSjOAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTA1LTI1VDAxOjMyOjM2KzAwOjAwH/0yeQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wNS0yNVQwMTozMjozNiswMDowMG6gisUAAAAASUVORK5CYII=&message=IntelliJ IDEA">
   </a>
 
-  <a target="_blank" href="https://s01.oss.sonatype.org/content/repositories/snapshots/cn/com/xuxiaowei/boot/spring-boot-starter-idempotent">
-    <img alt="snapshots" src="https://img.shields.io/maven-metadata/v?label=snapshots&metadataUrl=https://s01.oss.sonatype.org/content/repositories/snapshots/cn/com/xuxiaowei/boot/spring-boot-starter-idempotent/maven-metadata.xml">
+  <a target="_blank" href="https://s01.oss.sonatype.org/content/repositories/snapshots/cn/com/xuxiaowei/boot/next/spring-boot-starter-idempotent">
+    <img alt="snapshots" src="https://img.shields.io/maven-metadata/v?label=snapshots&metadataUrl=https://s01.oss.sonatype.org/content/repositories/snapshots/cn/com/xuxiaowei/boot/next/spring-boot-starter-idempotent/maven-metadata.xml">
   </a>
 
-  <a target="_blank" href="https://s01.oss.sonatype.org/content/repositories/releases/cn/com/xuxiaowei/boot/spring-boot-starter-idempotent">
-    <img alt="releases" src="https://img.shields.io/maven-metadata/v?label=releases&color=blue&metadataUrl=https://s01.oss.sonatype.org/content/repositories/releases/cn/com/xuxiaowei/boot/spring-boot-starter-idempotent/maven-metadata.xml">
+  <a target="_blank" href="https://s01.oss.sonatype.org/content/repositories/releases/cn/com/xuxiaowei/boot/next/spring-boot-starter-idempotent">
+    <img alt="releases" src="https://img.shields.io/maven-metadata/v?label=releases&color=blue&metadataUrl=https://s01.oss.sonatype.org/content/repositories/releases/cn/com/xuxiaowei/boot/next/spring-boot-starter-idempotent/maven-metadata.xml">
   </a>
 
   <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent">
@@ -161,7 +161,7 @@
 - 支持自定义幂等过期时间（`cn.com.xuxiaowei.boot.next.idempotent.annotation.Idempotent#expireTime()`）
 - 支持自定义幂等过期时间单位（`cn.com.xuxiaowei.boot.next.idempotent.annotation.Idempotent#expireUnit()`）
 - 支持自定义接口超时时直接响应空结果（响应header中响应调用记录）与自定义响应结果
-    - [TimeoutExceptionService](https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/main/src/main/java/cn/com/xuxiaowei/boot/idempotent/service/TimeoutExceptionService.java)
+    - [TimeoutExceptionService](https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/next/src/main/java/cn/com/xuxiaowei/boot/next/idempotent/service/TimeoutExceptionService.java)
 - 支持严格模式（未找到Token时抛出异常，使用`@org.springframework.web.bind.annotation.ControllerAdvice`统一拦截异常进行处理）
 - 支持将调用记录放入响应header中
 
