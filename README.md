@@ -224,10 +224,15 @@
 <details>
 <summary>点击展开</summary>
 git remote add gitee https://gitee.com/xuxiaowei-com-cn/spring-boot-starter-idempotent.git
+
 git remote add gitlab https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-idempotent.git
+
 git remote add jihulab https://jihulab.com/xuxiaowei-com-cn/spring-boot-starter-idempotent.git
+
 git remote add github https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent.git
+
 git remote add gitcode https://gitcode.net/xuxiaowei-com-cn/spring-boot-starter-idempotent.git
+
 git remote add gitlink https://gitlink.org.cn/xuxiaowei-com-cn/spring-boot-starter-idempotent.git
 </details>
 
