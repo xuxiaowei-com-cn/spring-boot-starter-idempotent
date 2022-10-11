@@ -120,6 +120,8 @@
 - next
     - 支持 JDK 17
 
+## 其他 [Spring Boot Starter 项目](https://gitee.com/xuxiaowei-com-cn/spring-boot-starter)
+
 ## 发布
 
 - 由于流水线时间等问题，快照版发布流水线在[gitcode](https://gitcode.net/xuxiaowei-com-cn/spring-boot-starter-idempotent)
