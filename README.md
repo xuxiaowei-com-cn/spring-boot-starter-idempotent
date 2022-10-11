@@ -96,11 +96,11 @@
     <img alt="total lines" src="https://tokei.rs/b1/github/xuxiaowei-com-cn/spring-boot-starter-idempotent">
   </a>
 
-  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/main/pom.xml">
+  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/next/pom.xml">
     <img alt="Spring Boot" src="https://img.shields.io/static/v1?logo=Spring Boot&message=3.0.0-M5">
   </a>
 
-  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/main/pom.xml">
+  <a target="_blank" href="https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/blob/next/pom.xml">
         <img alt="Redis" src="https://img.shields.io/static/v1?logo=Redis&message=6.2.6&color=blue">
   </a>
 
