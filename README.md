@@ -14,6 +14,14 @@
 
 <p></p>
 
+<div align="center" style="text-align: center;">
+    <a target="_blank" href="https://work.weixin.qq.com/gm/75cfc47d6a341047e4b6aca7389bdfa8">
+        <img alt="企业微信群" src="static/企业微信群.jpg" height="100"/>
+    </a>
+</div>
+
+<p></p>
+
 <p></p>
 
 <div align="center" style="text-align: center;">
