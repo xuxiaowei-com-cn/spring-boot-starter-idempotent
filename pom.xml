@@ -121,7 +121,6 @@
     <scm>
         <url>https://github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent</url>
         <connection>scm:git:https://git@github.com/xuxiaowei-com-cn/spring-boot-starter-idempotent.git</connection>
-        <developerConnection>http://xuxiaowei.com.cn</developerConnection>
     </scm>
 
     <issueManagement>
