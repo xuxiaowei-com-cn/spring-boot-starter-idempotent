@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * 程序执行入口
+ * <p>
+ * 发布可执行jar包到中央仓库时，忽略此文件
  *
  * @author xuxiaowei
  * @since 0.0.1
