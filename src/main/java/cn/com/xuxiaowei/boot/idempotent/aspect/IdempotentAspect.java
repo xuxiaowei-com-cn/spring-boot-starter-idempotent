@@ -9,9 +9,9 @@ package cn.com.xuxiaowei.boot.idempotent.aspect;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -69,7 +69,7 @@ import java.util.concurrent.*;
 public class IdempotentAspect {
 
 	private static final ExecutorService EXECUTOR_SERVICE = Executors
-			.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+		.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
 
 	/**
 	 * 用于序列化和反序列化数据
@@ -249,14 +249,14 @@ public class IdempotentAspect {
 
 			// 幂等调用记录
 			IdempotentContext idempotentContext = new IdempotentContext()
-					// 设置Token
-					.setToken(tokenValue)
-					// 未执行
-					.setStatus(StatusEnum.BEFORE_EXECUTE)
-					// 设置请求时间
-					.setRequestDate(requestDate)
-					// 过期时间
-					.setExpireDate(expireDate);
+				// 设置Token
+				.setToken(tokenValue)
+				// 未执行
+				.setStatus(StatusEnum.BEFORE_EXECUTE)
+				// 设置请求时间
+				.setRequestDate(requestDate)
+				// 过期时间
+				.setExpireDate(expireDate);
 
 			// 幂等调用记录（执行 Controller 之前）放入Redis
 			IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
@@ -274,12 +274,12 @@ public class IdempotentAspect {
 				stringRedisTemplate.opsForValue().set(redisResultKey, value, expireTime, expireUnit);
 
 				idempotentContext
-						// 设置调用状态
-						.setStatus(StatusEnum.AFTER_EXECUTE)
-						// 设置响应时间
-						.setResultDate(LocalDateTime.now())
-						// 设置调用次数
-						.setNumber(1);
+					// 设置调用状态
+					.setStatus(StatusEnum.AFTER_EXECUTE)
+					// 设置响应时间
+					.setResultDate(LocalDateTime.now())
+					// 设置调用次数
+					.setNumber(1);
 
 				// 幂等调用记录放入Redis
 				IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
@@ -344,16 +344,16 @@ public class IdempotentAspect {
 				// 调用结果转 String
 				String value = objectMapper.writeValueAsString(proceed);
 				// 将结果放入 Redis 中，添加过期时间
-				stringRedisTemplate.opsForValue().set(redisResultKey, value, idempotent.expireTime(),
-						idempotent.expireUnit());
+				stringRedisTemplate.opsForValue()
+					.set(redisResultKey, value, idempotent.expireTime(), idempotent.expireUnit());
 
 				idempotentContext
-						// 设置调用状态
-						.setStatus(StatusEnum.AFTER_EXECUTE)
-						// 设置响应时间
-						.setResultDate(LocalDateTime.now())
-						// 设置调用次数
-						.setNumber(1);
+					// 设置调用状态
+					.setStatus(StatusEnum.AFTER_EXECUTE)
+					// 设置响应时间
+					.setResultDate(LocalDateTime.now())
+					// 设置调用次数
+					.setNumber(1);
 				// 幂等调用记录放入Redis
 				IdempotentContextHolder.setRedis(stringRedisTemplate, idempotentContext, objectMapper, redisRecordKey);
 
