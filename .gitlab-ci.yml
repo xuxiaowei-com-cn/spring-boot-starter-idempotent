@@ -53,4 +53,13 @@ main:
     paths:
       - target/spring-boot-starter-idempotent-*
   rules:
-    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "next"
+      changes:
+        - ".mvn/**/*"
+        - "src/**/*"
+        - ".gitlab-ci.yml"
+        - "mvnw"
+        - "mvnw.cmd"
+        - "pom.xml"
+        - "settings.xml"
+        - "!README.md"
