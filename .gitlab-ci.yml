@@ -34,13 +34,11 @@ main:
     - GPG_FILE=`find / -name xuxiaowei_0x97A36125_SECRET`
     - echo $GPG_FILE
     - gpg --import $GPG_FILE
-    - SETTINGS_FILE=`find / -name settings.xml`
-    - echo $SETTINGS_FILE
-    - sed -i "s#</servers>#<server><id>ossrh</id><username>$ossrh_user</username><password>$ossrh_pass</password></server>&#" $SETTINGS_FILE
+    - sed -i "s#</servers>#<server><id>ossrh</id><username>$ossrh_user</username><password>$ossrh_pass</password></server>&#" settings.xml
     - git --version
-    - NAME=`mvn help:evaluate -Dexpression=project.name -q -DforceStdout`
-    - VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`
-    - PACKAGING=`mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout`
+    - NAME=`mvn help:evaluate -Dexpression=project.name -q -DforceStdout -s settings.xml`
+    - VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout -s settings.xml`
+    - PACKAGING=`mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout -s settings.xml`
     - echo 名称：$NAME
     - echo 版本：$VERSION
     - echo 包：$PACKAGING
@@ -48,7 +46,7 @@ main:
     - echo 当前分支：$CI_COMMIT_BRANCH
     - echo 主分支：$CI_DEFAULT_BRANCH
     - echo 项目路径：$CI_PROJECT_DIR
-    - mvn clean -U package source:jar javadoc:jar deploy -Pgpg -DskipTests && echo 发布完成
+    - mvn clean -U package source:jar javadoc:jar deploy -Pgpg -DskipTests -s settings.xml && echo 发布完成
   artifacts:
     paths:
       - target/spring-boot-starter-idempotent-*
