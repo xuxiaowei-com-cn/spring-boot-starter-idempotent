@@ -130,10 +130,15 @@
 
 ## 其他 [Spring Boot Starter 项目](https://gitee.com/xuxiaowei-com-cn/spring-boot-starter)
 
-## 发布
+## 流水线
 
-- 由于流水线时间等问题，快照版发布流水线在[gitcode](https://gitcode.net/xuxiaowei-com-cn/spring-boot-starter-idempotent)
-  ，正式版发布流水线在[gitlab](https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-idempotent)
+- 当前流水线：[极狐GitLab](https://jihulab.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/-/pipelines)
+    - 国内版 GitLab，开源项目：不限制流水线使用时长
+- 历史流水线：
+    - [GitLab](https://gitlab.com/xuxiaowei-com-cn/spring-boot-starter-idempotent/-/pipelines)
+    - [GitCode](https://gitcode.net/xuxiaowei-com-cn/spring-boot-starter-idempotent/-/pipelines)
+
+## 发布
 
 - [快照版](https://s01.oss.sonatype.org/content/repositories/snapshots/cn/com/xuxiaowei/boot/spring-boot-starter-idempotent)
 - [发布版](https://s01.oss.sonatype.org/content/repositories/releases/cn/com/xuxiaowei/boot/spring-boot-starter-idempotent)
