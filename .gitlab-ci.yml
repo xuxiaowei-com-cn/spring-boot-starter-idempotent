@@ -1,6 +1,7 @@
 stages:
   - pages
   - main
+  - sync
 
 variables:
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
@@ -61,3 +62,6 @@ main:
         - "pom.xml"
         - "settings.xml"
         - "!README.md"
+
+include:
+  - remote: https://jihulab.com/xuxiaowei-com-cn/spring-boot-starter/-/raw/main/sync.yml
