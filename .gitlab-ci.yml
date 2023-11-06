@@ -32,7 +32,7 @@ main:
   stage: main
   image: maven:3.6.3-jdk-8
   script:
-    - GPG_FILE=`find / -name xuxiaowei_0x97A36125_SECRET`
+    - GPG_FILE=`find / -name xuxiaowei_0x30F97859_SECRET`
     - echo $GPG_FILE
     - gpg --import $GPG_FILE
     - sed -i "s#</servers>#<server><id>ossrh</id><username>$ossrh_user</username><password>$ossrh_pass</password></server>&#" settings.xml
@@ -52,7 +52,7 @@ main:
     paths:
       - target/spring-boot-starter-idempotent-*
   rules:
-    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "next"
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "next" || $CI_COMMIT_BRANCH == "0.1.0-SNAPSHOT"
       changes:
         - ".mvn/**/*"
         - "src/**/*"
