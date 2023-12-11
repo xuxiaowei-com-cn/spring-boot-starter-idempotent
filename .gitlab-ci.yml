@@ -64,4 +64,6 @@ main:
         - "!README.md"
 
 include:
-  - remote: https://jihulab.com/xuxiaowei-com-cn/spring-boot-starter/-/raw/main/sync.yml
+  - project: xuxiaowei-com-cn/spring-boot-starter
+    file: sync.yml
+    ref: main
