@@ -64,4 +64,6 @@ next:
         - "!README.md"
 
 include:
-  - remote: https://jihulab.com/xuxiaowei-com-cn/spring-boot-starter/-/raw/next/sync.yml
+  - project: xuxiaowei-com-cn/spring-boot-starter
+    file: sync.yml
+    ref: next
